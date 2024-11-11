@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/login">
+
+    <fragment
+        android:id="@+id/frg_Tutorados"
+        android:name="com.itsoeh.checkmedocente.frg_Tutorados"
+        android:label="fragment_frg__tutorados"
+        tools:layout="@layout/fragment_frg__tutorados" >
+        <action
+            android:id="@+id/action_frg_Tutorados_to_frg_AgregarTutorado"
+            app:destination="@id/frg_AgregarTutorado" />
+        <action
+            android:id="@+id/action_frg_Tutorados_to_del_Tutorado"
+            app:destination="@id/del_Tutorado" />
+    </fragment>
+    <fragment
+        android:id="@+id/frg_AgregarTutorado"
+        android:name="com.itsoeh.checkmedocente.frg_AgregarTutorado"
+        android:label="fragment_frg__agregar_tutorado"
+        tools:layout="@layout/fragment_frg__agregar_tutorado" >
+        <action
+            android:id="@+id/action_frg_AgregarTutorado_to_frg_Tutorados"
+            app:destination="@id/frg_Tutorados" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.itsoeh.checkmedocente.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_docente"
+            app:destination="@id/docente" />
+    </fragment>
+    <fragment
+        android:id="@+id/docente"
+        android:name="com.itsoeh.checkmedocente.Docente"
+        android:label="fragment_docente"
+        tools:layout="@layout/fragment_docente" >
+        <action
+            android:id="@+id/action_docente_to_grupos_docente"
+            app:destination="@id/grupos_docente" />
+        <action
+            android:id="@+id/action_docente_to_pase_de_lista"
+            app:destination="@id/pase_de_lista" />
+        <action
+            android:id="@+id/action_docente_to_perfil_docente"
+            app:destination="@id/perfil_docente" />
+        <action
+            android:id="@+id/action_docente_to_frg_Tutorados"
+            app:destination="@id/frg_Tutorados" />
+        <action
+            android:id="@+id/action_docente_to_frg_AgregarTutorado"
+            app:destination="@id/frg_AgregarTutorado" />
+    </fragment>
+    <fragment
+        android:id="@+id/grupos_docente"
+        android:name="com.itsoeh.checkmedocente.grupos_docente"
+        android:label="fragment_grupos_docente"
+        tools:layout="@layout/fragment_grupos_docente" >
+        <action
+            android:id="@+id/action_grupos_docente_to_CRUD_Grupo"
+            app:destination="@id/CRUD_Grupo" />
+        <action
+            android:id="@+id/action_grupos_docente_to_docente"
+            app:destination="@id/docente" />
+        <action
+            android:id="@+id/action_grupos_docente_to_pase_de_lista"
+            app:destination="@id/pase_de_lista" />
+        <action
+            android:id="@+id/action_grupos_docente_to_perfil_docente"
+            app:destination="@id/perfil_docente" />
+        <action
+            android:id="@+id/action_grupos_docente_to_estudiante_Docente"
+            app:destination="@id/estudiante_Docente" />
+    </fragment>
+    <fragment
+        android:id="@+id/pase_de_lista"
+        android:name="com.itsoeh.checkmedocente.pase_de_lista"
+        android:label="fragment_pase_de_lista"
+        tools:layout="@layout/fragment_pase_de_lista" >
+        <action
+            android:id="@+id/action_pase_de_lista_to_perfil_docente"
+            app:destination="@id/perfil_docente" />
+        <action
+            android:id="@+id/action_pase_de_lista_to_grupos_docente"
+            app:destination="@id/grupos_docente" />
+        <action
+            android:id="@+id/action_pase_de_lista_to_docente"
+            app:destination="@id/docente" />
+    </fragment>
+    <fragment
+        android:id="@+id/perfil_docente"
+        android:name="com.itsoeh.checkmedocente.perfil_docente"
+        android:label="fragment_perfil_docente"
+        tools:layout="@layout/fragment_perfil_docente" >
+        <action
+            android:id="@+id/action_perfil_docente_to_pase_de_lista"
+            app:destination="@id/pase_de_lista" />
+        <action
+            android:id="@+id/action_perfil_docente_to_grupos_docente"
+            app:destination="@id/grupos_docente" />
+        <action
+            android:id="@+id/action_perfil_docente_to_docente"
+            app:destination="@id/docente" />
+    </fragment>
+    <fragment
+        android:id="@+id/del_Tutorado"
+        android:name="com.itsoeh.checkmedocente.Del_Tutorado"
+        android:label="fragment_del__tutorado"
+        tools:layout="@layout/fragment_del__tutorado" >
+        <action
+            android:id="@+id/action_del_Tutorado_to_frg_Tutorados"
+            app:destination="@id/frg_Tutorados" />
+    </fragment>
+    <fragment
+        android:id="@+id/CRUD_Grupo"
+        android:name="com.itsoeh.checkmedocente.CRUD_Grupo"
+        android:label="fragment_c_r_u_d__grupo"
+        tools:layout="@layout/fragment_c_r_u_d__grupo" >
+        <action
+            android:id="@+id/action_CRUD_Grupo_to_grupos_docente"
+            app:destination="@id/grupos_docente" />
+    </fragment>
+    <fragment
+        android:id="@+id/estudiante_Docente"
+        android:name="com.itsoeh.checkmedocente.estudiante_Docente"
+        android:label="fragment_estudiante__docente"
+        tools:layout="@layout/fragment_estudiante__docente" />
+</navigation>
