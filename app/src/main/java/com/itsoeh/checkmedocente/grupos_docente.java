@@ -215,6 +215,7 @@ public class grupos_docente extends Fragment {
                 Map<String, String> param=new HashMap<String,String>();
                 //PASA PARAMETROS A LA SOLICITUD
                 param.put("id",obj.getIdDocente()+"");
+                Log.e("objeto", obj.toString());
                 return param;
             }
         };

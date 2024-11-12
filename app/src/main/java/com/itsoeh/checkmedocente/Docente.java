@@ -128,7 +128,10 @@ public class Docente extends Fragment {
     }
 
     private void clicMisGrupos() {
-        navegador.navigate(R.id.action_docente_to_grupos_docente);
+        if(paquete != null){
+            paquete.putSerializable("user",obj);
+        }
+        navegador.navigate(R.id.action_docente_to_grupos_docente,paquete);
     }
 
     private void clicPerfil() {
