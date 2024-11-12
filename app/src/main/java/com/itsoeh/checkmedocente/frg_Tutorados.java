@@ -13,13 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 
 import com.android.volley.Request;
@@ -28,12 +32,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.itsoeh.checkmedocente.adapter.AdapterTutor;
+import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.modelo.MTutor;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +59,10 @@ public class frg_Tutorados extends Fragment {
         private RecyclerView rec;
         private NavController navegador;
         private ImageView btnAgrgarTutorado;
+        private MDocente objDoc;
+        private Spinner spinGpo;
+        private String grupoSelect;
+        private TextView txtGrupo;
 
 
     @Override
@@ -62,6 +72,25 @@ public class frg_Tutorados extends Fragment {
         txtFiltro = view.findViewById(R.id.tut_txt_filtro);
         btnAgrgarTutorado=view.findViewById(R.id.tut_btn_addtut);
         navegador = Navigation.findNavController(view);
+        spinGpo=view.findViewById(R.id.frgtut_spin_gpo);
+        txtGrupo=view.findViewById(R.id.tut_txtgpo);
+        spinGpo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                grupoSelect=parent.getItemAtPosition(position).toString();
+                txtGrupo.setText(grupoSelect);
+                lista=llenadoDesdeBD();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        if(paquete != null){
+                objDoc = (MDocente) paquete.getSerializable("user");
+            Log.e("",objDoc.toString());
+        }
         btnAgrgarTutorado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,8 +239,8 @@ public class frg_Tutorados extends Fragment {
             protected Map<String, String> getParams(){
                 Map<String, String> param=new HashMap<String,String>();
                 //PASA PARAMETROS A LA SOLICITUD
-                param.put("id","1");
-                param.put("clave","TO1");
+                param.put("id",objDoc.getIdDocente() +"");
+                param.put("clave",txtGrupo.getText().toString());
                 return param;
             }
         };

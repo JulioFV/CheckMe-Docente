@@ -1,7 +1,7 @@
 package com.itsoeh.checkmedocente.volley;
 
     public interface API {
-        public String URL ="http://192.168.1.69/ws/";
+        public String URL ="http://192.168.0.105/ws/";
 
 
         //Comienza el CRUD para Grupos
