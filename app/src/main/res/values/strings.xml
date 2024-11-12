@@ -2,4 +2,13 @@
     <string name="app_name">CheckMeDocente</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="gpo">
+        <item>TO1</item>
+        <item>TO2</item>
+        <item>TO3</item>
+        <item>TO4</item>
+
+    </string-array>
 </resources>

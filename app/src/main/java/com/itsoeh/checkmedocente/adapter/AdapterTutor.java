@@ -21,6 +21,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
+
         private ArrayList<MTutor> lista;
         private Bundle paquete;
 
@@ -74,12 +75,14 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
             this.lista = filtrados;
             notifyDataSetChanged();
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView lblMatricula,lblNombreEstu,lblIdEstu,lblCorreo,lblIdGrupo,lblIDasig;
         private ImageView btnEliminar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             btnEliminar=itemView.findViewById(R.id.it_est_btn_eliminar);
             lblMatricula = itemView.findViewById(R.id.item_est_lblmatricula);
             lblNombreEstu = itemView.findViewById(R.id.item_est_lblnombre);
@@ -87,6 +90,7 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
             lblCorreo = itemView.findViewById(R.id.item_est_lblcorreo);
             lblIdGrupo = itemView.findViewById(R.id.item_gpo_lblgrupo);
             lblIDasig = itemView.findViewById(R.id.item_gpo_lbl_id_ins);
+
         }
     }
 }

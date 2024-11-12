@@ -1,7 +1,7 @@
 package com.itsoeh.checkmedocente.volley;
 
     public interface API {
-        public String URL ="https://slateblue-squid-754504.hostingersite.com/";
+        public String URL ="http://192.168.1.69/ws/";
 
 
         //Comienza el CRUD para Grupos
@@ -9,10 +9,10 @@ package com.itsoeh.checkmedocente.volley;
         public String AGREGARTUT=URL + "ApiT.php?api=addTut";
         public String ELIMINARTUT=URL + "ApiT.php?api=remTut";
         public String LISTARGPO = URL + "ApiG.php?api=listar";
-        public String AGREGARGPO = "ApiG.php?api=guardar";
-        public String ELIMINARGPO=URL + "ApiG.php?api=eliminar";
-        public String EDITARGPO=URL + "ApiG.php?api=editar";
-        public String BUSCARDOC = URL + "ApiD.php?api=listarDoc";
+        public String AGREGARGPO = "";
+        public String ELIMINARGPO=URL + "";
+        public String EDITARGPO=URL + "";
+        public String BUSCARDOC = URL + "ApiD.php?api=buscarDoc";
 
     }
 

@@ -120,7 +120,14 @@ public class Docente extends Fragment {
     }
 
     private void clicMisTutorados() {
-        navegador.navigate(R.id.action_docente_to_frg_Tutorados);
+
+
+        if(paquete!=null){
+            paquete.putSerializable("user",obj);
+        }
+
+        navegador.navigate(R.id.action_docente_to_frg_Tutorados, paquete);
+
     }
 
     private void clicPaseDeLista() {
