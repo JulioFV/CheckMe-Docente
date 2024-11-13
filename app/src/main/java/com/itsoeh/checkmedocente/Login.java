@@ -184,9 +184,6 @@ public class Login extends Fragment {
                                 AlertDialog dialog=msg.create();
                             }
 
-
-
-
                         }catch (Exception ex){
                             //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
                             Log.e("PASO 5", ex.getMessage());
@@ -197,7 +194,6 @@ public class Login extends Fragment {
                             msg.show();
 
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override

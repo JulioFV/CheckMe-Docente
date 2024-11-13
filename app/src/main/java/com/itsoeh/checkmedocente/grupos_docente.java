@@ -42,7 +42,7 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class grupos_docente extends Fragment {
-    private CardView back, btnPerfil, btnPase;
+    private CardView back, btnPerfil, btnPase, btnCrear;
     private NavController navegador;
     private RecyclerView rec;
     private ArrayList<MGrupo> lista;
@@ -102,6 +102,7 @@ public class grupos_docente extends Fragment {
         back = view.findViewById(R.id.grupos_btn_back);
         btnPerfil = view.findViewById(R.id.MisGrupos_btn_miPerfil);
         btnPase = view.findViewById(R.id.MisGrupos_btn_paseDeLista);
+        btnCrear = view.findViewById(R.id.Grupos_btn_crearGrupo);
         rec=view.findViewById(R.id.Misgrupos_RecyclerView);
         navegador = Navigation.findNavController(view);
 
@@ -113,6 +114,11 @@ public class grupos_docente extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clicBack();
+            }
+        });
+        btnCrear.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clicCrear();
             }
         });
         btnPerfil.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +140,8 @@ public class grupos_docente extends Fragment {
         adapter=new AdapterGrupo(lista);
         rec.setAdapter(adapter);
     }
+
+
 
     private ArrayList<MGrupo> llenadoDesdeBD() {
         ArrayList<MGrupo> lista=new ArrayList<MGrupo>();
@@ -241,14 +249,17 @@ public class grupos_docente extends Fragment {
 //    }
 
     private void clicPase() {
-        navegador.navigate(R.id.action_grupos_docente_to_pase_de_lista);
+        navegador.navigate(R.id.action_grupos_docente_to_pase_de_lista, paquete);
     }
 
     private void clicPerfil() {
-        navegador.navigate(R.id.action_grupos_docente_to_perfil_docente);
+        navegador.navigate(R.id.action_grupos_docente_to_perfil_docente, paquete);
     }
 
     private void clicBack() {
-        navegador.navigate(R.id.action_grupos_docente_to_docente);
+        navegador.navigate(R.id.action_grupos_docente_to_docente, paquete);
+    }
+    private void clicCrear() {
+        navegador.navigate(R.id.action_grupos_docente_to_CRUD_Grupo, paquete);
     }
 }

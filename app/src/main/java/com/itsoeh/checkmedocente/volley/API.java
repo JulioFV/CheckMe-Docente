@@ -12,7 +12,7 @@ package com.itsoeh.checkmedocente.volley;
         public String AGREGARGPO = "";
         public String ELIMINARGPO=URL + "";
         public String EDITARGPO=URL + "";
-        public String BUSCARDOC = URL + "ApiD.php?api=buscarDoc";
+        public String BUSCARDOC = URL + "ApiD.php?api=listarDoc";
 
     }
 
