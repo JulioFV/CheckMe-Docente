@@ -118,4 +118,20 @@ public class MGrupo implements Serializable {
     public void setNombrePer(String nombrePer) {
         this.nombrePer = nombrePer;
     }
+
+    @Override
+    public String toString() {
+        return "MGrupo{" +
+                "idGrupo=" + idGrupo +
+                ", clave='" + clave + '\'' +
+                ", idAsignatura=" + idAsignatura +
+                ", idDocente=" + idDocente +
+                ", idPeriodo=" + idPeriodo +
+                ", nombreAsig='" + nombreAsig + '\'' +
+                ", nombreDoc='" + nombreDoc + '\'' +
+                ", app='" + app + '\'' +
+                ", apm='" + apm + '\'' +
+                ", nombrePer='" + nombrePer + '\'' +
+                '}';
+    }
 }

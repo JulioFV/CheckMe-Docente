@@ -13,22 +13,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:layout_margin="16dp">
 
-        <ImageView
-            android:id="@+id/item_gpo_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/g_pastel"
+        android:layout_margin="16dp"
 
-            />
+        >
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/linear"
+    android:orientation="vertical"
+    android:layout_marginTop="45dp"
+    >
+
+    <ImageView
+        android:id="@+id/item_estu_btnasignaturas"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/asignaturas"
+        android:layout_margin="5dp"
+        />
+    <ImageView
+        android:id="@+id/item_estu_btnhistorial"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/historial"
+        android:layout_margin="5dp"
+        />
+    <ImageView
+        android:id="@+id/item_estu_btnperfil_alumn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/perfil_alumn"
+        android:layout_margin="5dp"
+        />
+
+</LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/item_gpo_icon"
+            android:layout_toEndOf="@id/linear"
             android:layout_marginStart="16dp"
             android:orientation="vertical">
 
@@ -136,7 +161,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="ID Grupo: "
+                    android:text="Genero: "
                     android:textColor="@android:color/white"
                     android:layout_marginEnd="16dp"
                     />

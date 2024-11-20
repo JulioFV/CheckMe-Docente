@@ -73,8 +73,8 @@ public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.viewHolderGr
         holder.btnver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                clicVer(v,gpo);
+                paquete.putSerializable("objeto" , gpo);
+                clicVer(v);
             }
         });
 
@@ -93,9 +93,10 @@ public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.viewHolderGr
 
     }
 
-    private void clicVer(View v, MGrupo gpo) {
+    private void clicVer(View v) {
+
         NavController nav = Navigation.findNavController(v);
-        nav.navigate(R.id.action_grupos_docente_to_estudiante_Docente);
+        nav.navigate(R.id.action_grupos_docente_to_estudiante_Docente,paquete);
 
 
 

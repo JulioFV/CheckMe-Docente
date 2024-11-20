@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 import com.itsoeh.checkmedocente.volley.API;
 
@@ -34,9 +36,11 @@ import java.util.Map;
  */
 public class frg_AgregarTutorado extends Fragment {
 
-    private ImageView btnTutorados,btnAgregar;
+    private ImageView btnTutorados,btnAgregar,btnGrupos,btnPerfil,btnMenu;
     private NavController navegador;
     private EditText txtIdGrupo,txtIdEstudiante,txtOp;
+    private Bundle paquete;
+    private MDocente objDoc;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -46,7 +50,33 @@ public class frg_AgregarTutorado extends Fragment {
         txtIdGrupo = view.findViewById(R.id.add_tut_txtid_gpo);
         txtIdEstudiante = view.findViewById(R.id.add_tut_txtid_est);
         txtOp=view.findViewById(R.id.add_tut_txt_op);
+        btnGrupos=view.findViewById(R.id.addtut_btn_grupos);
+        btnPerfil=view.findViewById(R.id.addtut_btn_perfil);
+        btnMenu= view.findViewById(R.id.addtut_btn_menu);
         navegador = Navigation.findNavController(view);//ESTO ES PARA QUER FUNCIONE EL NAVEGADOR
+        paquete=getArguments();
+        if(paquete != null){
+            objDoc = (MDocente) paquete.getSerializable("user");
+            Log.e("OBJETO POR BUNDLE",objDoc.toString());
+        }
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicMenu();
+            }
+        });
+        btnPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicPerfil();
+            }
+        });
+        btnGrupos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicGrupos();
+            }
+        });
         btnTutorados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +90,30 @@ public class frg_AgregarTutorado extends Fragment {
             }
         });
 
+    }
+
+    private void clicMenu() {
+
+        if(paquete!=null){
+            paquete.putSerializable("user",objDoc);
+        }
+        navegador.navigate(R.id.action_frg_AgregarTutorado_to_docente,paquete);
+
+
+    }
+
+    private void clicPerfil() {
+        if(paquete!=null){
+            paquete.putSerializable("user",objDoc);
+        }
+        navegador.navigate(R.id.action_frg_AgregarTutorado_to_perfil_docente,paquete);
+    }
+
+    private void clicGrupos() {
+        if(paquete!=null){
+            paquete.putSerializable("user",objDoc);
+        }
+        navegador.navigate(R.id.action_frg_AgregarTutorado_to_grupos_docente,paquete);
     }
 
     private void clicAgregar() {
@@ -134,7 +188,10 @@ public class frg_AgregarTutorado extends Fragment {
     }
 
     private void clicTutorados() {
-        navegador.navigate(R.id.action_frg_AgregarTutorado_to_frg_Tutorados);
+        if(paquete!=null){
+            paquete.putSerializable("user",objDoc);
+        }
+        navegador.navigate(R.id.action_frg_AgregarTutorado_to_frg_Tutorados,paquete);
     }
 
 

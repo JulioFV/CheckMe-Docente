@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/login">
+    app:startDestination="@id/splashScreen">
 
     <fragment
         android:id="@+id/frg_Tutorados"
@@ -16,6 +16,24 @@
         <action
             android:id="@+id/action_frg_Tutorados_to_del_Tutorado"
             app:destination="@id/del_Tutorado" />
+        <action
+            android:id="@+id/action_frg_Tutorados_to_docente"
+            app:destination="@id/docente" />
+        <action
+            android:id="@+id/action_frg_Tutorados_to_grupos_docente"
+            app:destination="@id/grupos_docente" />
+        <action
+            android:id="@+id/action_frg_Tutorados_to_perfil_docente"
+            app:destination="@id/perfil_docente" />
+        <action
+            android:id="@+id/action_frg_Tutorados_to_perfil_Alumno"
+            app:destination="@id/perfil_Alumno" />
+        <action
+            android:id="@+id/action_frg_Tutorados_to_historialAlumn"
+            app:destination="@id/historialAlumn" />
+        <action
+            android:id="@+id/action_frg_Tutorados_to_materiasTutorado"
+            app:destination="@id/materiasTutorado" />
     </fragment>
     <fragment
         android:id="@+id/frg_AgregarTutorado"
@@ -25,6 +43,15 @@
         <action
             android:id="@+id/action_frg_AgregarTutorado_to_frg_Tutorados"
             app:destination="@id/frg_Tutorados" />
+        <action
+            android:id="@+id/action_frg_AgregarTutorado_to_grupos_docente"
+            app:destination="@id/grupos_docente" />
+        <action
+            android:id="@+id/action_frg_AgregarTutorado_to_perfil_docente"
+            app:destination="@id/perfil_docente" />
+        <action
+            android:id="@+id/action_frg_AgregarTutorado_to_docente"
+            app:destination="@id/docente" />
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -34,6 +61,9 @@
         <action
             android:id="@+id/action_login_to_docente"
             app:destination="@id/docente" />
+        <action
+            android:id="@+id/action_login_to_frg_Registro"
+            app:destination="@id/frg_Registro" />
     </fragment>
     <fragment
         android:id="@+id/docente"
@@ -106,6 +136,12 @@
         <action
             android:id="@+id/action_perfil_docente_to_docente"
             app:destination="@id/docente" />
+        <action
+            android:id="@+id/action_perfil_docente_to_frg_AgregarTutorado"
+            app:destination="@id/frg_AgregarTutorado" />
+        <action
+            android:id="@+id/action_perfil_docente_to_frg_Tutorados"
+            app:destination="@id/frg_Tutorados" />
     </fragment>
     <fragment
         android:id="@+id/del_Tutorado"
@@ -130,4 +166,37 @@
         android:name="com.itsoeh.checkmedocente.estudiante_Docente"
         android:label="fragment_estudiante__docente"
         tools:layout="@layout/fragment_estudiante__docente" />
+    <fragment
+        android:id="@+id/frg_Registro"
+        android:name="com.itsoeh.checkmedocente.frg_Registro"
+        android:label="fragment_frg__registro"
+        tools:layout="@layout/fragment_frg__registro" >
+        <action
+            android:id="@+id/action_frg_Registro_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/perfil_Alumno"
+        android:name="com.itsoeh.checkmedocente.perfil_Alumno"
+        android:label="fragment_perfil__alumno"
+        tools:layout="@layout/fragment_perfil__alumno" />
+    <fragment
+        android:id="@+id/historialAlumn"
+        android:name="com.itsoeh.checkmedocente.historialAlumn"
+        android:label="fragment_historial_alumn"
+        tools:layout="@layout/fragment_historial_alumn" />
+    <fragment
+        android:id="@+id/materiasTutorado"
+        android:name="com.itsoeh.checkmedocente.materiasTutorado"
+        android:label="fragment_materias_tutorado"
+        tools:layout="@layout/fragment_materias_tutorado" />
+    <fragment
+        android:id="@+id/splashScreen"
+        android:name="com.itsoeh.checkmedocente.SplashScreen"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreen_to_login"
+            app:destination="@id/login" />
+    </fragment>
 </navigation>

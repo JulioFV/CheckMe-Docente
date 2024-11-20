@@ -5,10 +5,26 @@
 
 
     <string-array name="gpo">
-        <item>TO1</item>
-        <item>TO2</item>
-        <item>TO3</item>
-        <item>TO4</item>
+        <item>TO11A</item>
+        <item>TO22A</item>
+        <item>TO33A</item>
+        <item>TO44A</item>
+
+    </string-array>
+
+    <string-array name="generos">
+        <item>Femenino</item>
+        <item>Masculino</item>
+
+        <item>Fluido</item>
+
+    </string-array>
+
+    <string-array name="paselista">
+        <item>Asistencia</item>
+        <item>Falta</item>
+        <item>Retardo</item>
+        <item>Justificante</item>
 
     </string-array>
 </resources>

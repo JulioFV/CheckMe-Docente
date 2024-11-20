@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,8 +40,9 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class Login extends Fragment {
-    private Button btnEntrar;
+    private CardView btnEntrar;
     private EditText txtUsuario,txtContrasenia;
+    private TextView btnRegistro;
     private NavController navegador;
     private Bundle paquete;
     private MDocente obj;
@@ -98,6 +100,14 @@ public class Login extends Fragment {
         btnEntrar=view.findViewById(R.id.loginButton);
         txtContrasenia=view.findViewById(R.id.Login_txt_Contrasenia);
         txtUsuario=view.findViewById(R.id.login_txtNombre);
+        btnRegistro = view.findViewById(R.id.login_registro);
+
+        btnRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicRegistro();
+            }
+        });
         paquete = new Bundle();
 
         btnEntrar.setOnClickListener(new View.OnClickListener(){
@@ -105,6 +115,10 @@ public class Login extends Fragment {
                 clicEntrar();
             }
         });
+    }
+
+    private void clicRegistro() {
+        navegador.navigate(R.id.action_login_to_frg_Registro);
     }
 
     private void clicEntrar() {
@@ -171,6 +185,7 @@ public class Login extends Fragment {
                                 msg.setMessage("El usuario no existe");
                                 msg.setPositiveButton("Aceptar",null);
                                 AlertDialog dialog=msg.create();
+                                msg.show();
                             }
                             if(txtContrasenia.getText().toString().equals(obj.getContrasenia())){
                                 paquete.putSerializable("user",obj);
@@ -182,6 +197,7 @@ public class Login extends Fragment {
                                 msg.setMessage("Contraseña incorrecta");
                                 msg.setPositiveButton("Aceptar",null);
                                 AlertDialog dialog=msg.create();
+                                msg.show();
                             }
 
                         }catch (Exception ex){

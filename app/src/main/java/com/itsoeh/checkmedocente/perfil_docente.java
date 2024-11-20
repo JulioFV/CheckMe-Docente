@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itsoeh.checkmedocente.modelo.MDocente;
@@ -23,11 +25,16 @@ import com.itsoeh.checkmedocente.modelo.MDocente;
  * create an instance of this fragment.
  */
 public class perfil_docente extends Fragment {
-    private CardView btnGrupos, btnPaseDL, back;
+
     private NavController navegador;
+
     private  Bundle paquete;
+    private CardView btnBack;
     private MDocente obj;
-    private TextView txtNombre, txtTitulo, txtCorreo, txtNumT;
+    private TextView txtNombre, txtTitulo, txtCorreo, txtNumT,txtGenero;
+    private ImageView btnMenu,btnGrupos,btnTutorados,btnAddTut,imgPerfil;
+    private int genero;
+    private String gen;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,41 +86,102 @@ public class perfil_docente extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnGrupos = view.findViewById(R.id.btn_misGrupos);
-        btnPaseDL = view.findViewById(R.id.btn_paseDeLista);
-        back = view.findViewById(R.id.btn_Perfil_back);
+
+        btnGrupos= view.findViewById(R.id.perfil_btn_grupos);
+        btnMenu= view.findViewById(R.id.perfil_btn_menu);
+        btnAddTut= view.findViewById(R.id.perfil_btn_addtut);
+        btnTutorados= view.findViewById(R.id.perfil_btn_tutorados);
+        btnBack=view.findViewById(R.id.btn_Perfil_back);
+        imgPerfil = view.findViewById(R.id.perfil_doc_img);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicBack();
+            }
+        });
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicMenu();
+            }
+        });
+        btnAddTut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicAddTut();
+            }
+        });
+        btnTutorados.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicTutorados();
+            }
+        });
+
         navegador = Navigation.findNavController(view);
         txtNombre = view.findViewById(R.id.perfil_nombre);
         txtTitulo = view.findViewById(R.id.miPerfil_titulo);
         txtCorreo = view.findViewById(R.id.miPerfil_correo);
         txtNumT = view.findViewById(R.id.miPerfil_NumTrabajador);
+        txtGenero = view.findViewById(R.id.per_doc_txtgenero);
 
         paquete= this.getArguments();
         if(paquete!=null){
             obj=(MDocente) paquete.getSerializable("user");
             txtNombre.setText(obj.getGrado()+" "+obj.getApp()+" "+obj.getApm()+" "+obj.getNombre());
-            txtTitulo.setText("Titulo: "+obj.getTitulo());
+            txtTitulo.setText("Titulo: "+obj.getGrado() +" "+obj.getTitulo());
             txtCorreo.setText("Correo: "+obj.getCorreo());
             txtNumT.setText("Numero de trabajador: "+obj.getNumTrabajador());
+
+
+           genero = obj.getGenero();
+            if (genero ==  0) {
+                imgPerfil.setImageResource(R.drawable.perfil_mtro);
+                gen="Masculino";
+            } else if (genero == 1) {
+               imgPerfil.setImageResource(R.drawable.perfil_mtra);
+                gen="Femenino";
+            }
+            txtGenero.setText("Genero:  "+gen);
+
         }
         btnGrupos.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clicGrupos();
             }
         });
-        btnPaseDL.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                clicPaseDL();
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                clicBack();
-            }
-        });
+
     }
 
+
+
+    private void clicTutorados() {
+        if(paquete!=null){
+            paquete.putSerializable("user",obj);
+        }
+        navegador.navigate(R.id.action_perfil_docente_to_frg_Tutorados,paquete);
+    }
+
+    private void clicAddTut() {
+        if(paquete!=null){
+            paquete.putSerializable("user",obj);
+        }
+        navegador.navigate(R.id.action_perfil_docente_to_frg_AgregarTutorado,paquete);
+    }
+
+    private void clicMenu() {
+        if(paquete!=null){
+            paquete.putSerializable("user",obj);
+        }
+        navegador.navigate(R.id.action_perfil_docente_to_docente, paquete);
+    }
+
+
     private void clicBack() {
+        if(paquete!=null){
+            paquete.putSerializable("user",obj);
+        }
         navegador.navigate(R.id.action_perfil_docente_to_docente, paquete);
     }
 
@@ -122,6 +190,9 @@ public class perfil_docente extends Fragment {
     }
 
     private void clicGrupos() {
-        navegador.navigate(R.id.action_perfil_docente_to_grupos_docente);
+        if(paquete!=null){
+            paquete.putSerializable("user",obj);
+        }
+        navegador.navigate(R.id.action_perfil_docente_to_grupos_docente,paquete);
     }
 }

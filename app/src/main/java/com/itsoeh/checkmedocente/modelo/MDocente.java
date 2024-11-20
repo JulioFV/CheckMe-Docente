@@ -9,12 +9,14 @@ public class MDocente implements Serializable {
     private String nombre;
     private String app;
     private String apm;
+
     private String correo;
     private String grado;
     private String titulo;
     private int genero;
     private String contrasenia;
     private int rol;
+
 
     public MDocente() {
     }

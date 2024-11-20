@@ -106,9 +106,10 @@ public class grupos_docente extends Fragment {
         rec=view.findViewById(R.id.Misgrupos_RecyclerView);
         navegador = Navigation.findNavController(view);
 
-        paquete= this.getArguments();
+        paquete=this.getArguments();
         if(paquete!=null){
             obj=(MDocente) paquete.getSerializable("user");
+            Log.e("datosMaestro",obj.toString());
         }
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +132,12 @@ public class grupos_docente extends Fragment {
                 clicPase();
             }
         });
+
+        paquete=this.getArguments();
+        if(paquete!=null){
+            obj=(MDocente) paquete.getSerializable("user");
+            Log.e("datosMaestro",obj.toString());
+        }
 
         lista=llenadoDesdeBD();
         rec=view.findViewById(R.id.Misgrupos_RecyclerView);
@@ -223,6 +230,7 @@ public class grupos_docente extends Fragment {
                 Map<String, String> param=new HashMap<String,String>();
                 //PASA PARAMETROS A LA SOLICITUD
                 param.put("id",obj.getIdDocente()+"");
+               // param.put("id","1");
                 Log.e("objeto", obj.toString());
                 return param;
             }
@@ -233,20 +241,7 @@ public class grupos_docente extends Fragment {
 
         return lista;
     }
-//    private ArrayList<MGrupo> llenadoManual() {
-//        ArrayList<MGrupo> lista=new ArrayList<MGrupo>();
-//        lista.add(new MGrupo("78BA","Aplicaciónes Móviles Nativas de Código Abierto",
-//                "Mario Perez Bautista",3,1));
-//
-//        lista.add(new MGrupo("405A","Simulación","Guillermo Ortiz Castañeda",3,2));
-//        lista.add(new MGrupo("401B","Matematicas Discretas","Aline Pérez Martinez",1,3));
-//
-//        lista.add(new MGrupo("1O7B","Lenguajes y Automatas","Aline Pérez Martinez",1,3));
-//        lista.add(new MGrupo("2O7B","Conmutacion y enrutamiento","German Rebolledo Avalos",1,3));
-//        lista.add(new MGrupo("5O7B","Sistemas programables","Josue Emmanuel Rodriguez Allende",1,3));
-//
-//        return lista;
-//    }
+
 
     private void clicPase() {
         navegador.navigate(R.id.action_grupos_docente_to_pase_de_lista, paquete);

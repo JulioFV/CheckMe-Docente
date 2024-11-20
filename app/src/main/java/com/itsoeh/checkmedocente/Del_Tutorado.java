@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +51,7 @@ public class Del_Tutorado extends Fragment {
 
     private CardView btnEliminar;
     private MTutor tutor;
+    private NavController navegador;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class Del_Tutorado extends Fragment {
         lblNombre=view.findViewById(R.id.del_lbl_nombre);
         lblId=view.findViewById(R.id.del_lbl_id);
         lblMatricula=view.findViewById(R.id.del_lbl_matricula);
+        navegador = Navigation.findNavController(view);
+
         paquete=getArguments();
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +79,6 @@ public class Del_Tutorado extends Fragment {
             lblMatricula.setText(tutor.getMatricula() + "");
             lblId.setText(tutor.getIdEstudiante() + "");
             lblIdInscripcion.setText(tutor.getIdInscripcion() + "");
-
 
 
         }
@@ -147,9 +151,7 @@ public class Del_Tutorado extends Fragment {
             protected Map<String, String> getParams(){
                 Map<String, String> param=new HashMap<String,String>();
                 //PASA PARAMETROS A LA SOLICITUD
-                param.put("idInscripcion",tutor.getIdInscripcion() + "");
-
-
+                param.put("idInscripcion",tutor.getIdInscripcion()+"");
                 return param;
             }
         };

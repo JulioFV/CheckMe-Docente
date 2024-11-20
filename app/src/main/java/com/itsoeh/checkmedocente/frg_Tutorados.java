@@ -58,7 +58,7 @@ public class frg_Tutorados extends Fragment {
         private Bundle paquete;
         private RecyclerView rec;
         private NavController navegador;
-        private ImageView btnAgrgarTutorado;
+        private ImageView btnAgrgarTutorado,btnGrupos,btnPerfil,btnMenu;
         private MDocente objDoc;
         private Spinner spinGpo;
         private String grupoSelect;
@@ -71,9 +71,37 @@ public class frg_Tutorados extends Fragment {
 
         txtFiltro = view.findViewById(R.id.tut_txt_filtro);
         btnAgrgarTutorado=view.findViewById(R.id.tut_btn_addtut);
+        
+        btnPerfil=view.findViewById(R.id.tut_btn_perfil);
+        btnGrupos=view.findViewById(R.id.tut_btn_grupos);
+        btnMenu=view.findViewById(R.id.tut_btn_menu);
+        
         navegador = Navigation.findNavController(view);
         spinGpo=view.findViewById(R.id.frgtut_spin_gpo);
         txtGrupo=view.findViewById(R.id.tut_txtgpo);
+        paquete=getArguments();
+        rec=view.findViewById(R.id.recycler_view_tutorados);
+
+        lista=llenadoDesdeBD();
+        btnPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicPerfil();
+            }
+        });
+        btnGrupos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicGrupos();
+            }
+        });
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicMenu();
+            }
+        });
+
         spinGpo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -88,8 +116,8 @@ public class frg_Tutorados extends Fragment {
             }
         });
         if(paquete != null){
-                objDoc = (MDocente) paquete.getSerializable("user");
-            Log.e("",objDoc.toString());
+            objDoc = (MDocente) paquete.getSerializable("user");
+            Log.e("OBJETO POR BUNDLE",objDoc.toString());
         }
         btnAgrgarTutorado.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,13 +144,35 @@ public class frg_Tutorados extends Fragment {
         });
 
 
-        rec=view.findViewById(R.id.recycler_view_tutorados);
 
-        lista=llenadoDesdeBD();
+    }
+
+    private void clicMenu() {
+        if(paquete!=null){
+            paquete.putSerializable("user",objDoc);
+        }
+        navegador.navigate(R.id.action_frg_Tutorados_to_docente,paquete);
+    }
+
+    private void clicGrupos() {
+        if(paquete!=null){
+            paquete.putSerializable("user",objDoc);
+        }
+        navegador.navigate(R.id.action_frg_Tutorados_to_grupos_docente,paquete);
+    }
+
+    private void clicPerfil() {
+        if(paquete!=null){
+            paquete.putSerializable("user",objDoc);
+        }
+        navegador.navigate(R.id.action_frg_Tutorados_to_perfil_docente,paquete);
     }
 
     private void clicAddTut() {
-        navegador.navigate(R.id.action_frg_Tutorados_to_frg_AgregarTutorado);
+        if(paquete!=null){
+            paquete.putSerializable("user",objDoc);
+        }
+        navegador.navigate(R.id.action_frg_Tutorados_to_frg_AgregarTutorado,paquete);
     }
 
     private void buscador(String s) {
@@ -211,6 +261,10 @@ public class frg_Tutorados extends Fragment {
 
 
 
+
+
+
+
                         }catch (Exception ex){
                             //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
 
@@ -219,6 +273,7 @@ public class frg_Tutorados extends Fragment {
                             msg.setPositiveButton("Aceptar",null);
                             AlertDialog dialog=msg.create();
                             msg.show();
+                            Log.e("Error",ex.toString());
 
                         }
 
@@ -236,11 +291,15 @@ public class frg_Tutorados extends Fragment {
             }
         }){
             @Override
-            protected Map<String, String> getParams(){
-                Map<String, String> param=new HashMap<String,String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> param = new HashMap<String, String>();
                 //PASA PARAMETROS A LA SOLICITUD
-                param.put("id",objDoc.getIdDocente() +"");
+
+               param.put("id",objDoc.getIdDocente()+"");
+
                 param.put("clave",txtGrupo.getText().toString());
+
+
                 return param;
             }
         };

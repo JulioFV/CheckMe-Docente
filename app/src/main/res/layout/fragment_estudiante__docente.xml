@@ -60,7 +60,7 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/lupa"/>
                 <EditText
-                    android:id="@+id/Grupos_txtNombre"
+                    android:id="@+id/estudiantes_txtNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Buscar grupos..."
@@ -69,7 +69,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/Tutor_recycler_view_Grupo"
+                android:id="@+id/Tutor_recycler_view_estud_grupo"
                 android:layout_width="match_parent"
                 android:background="@color/white"
                 android:layout_height="0dp"

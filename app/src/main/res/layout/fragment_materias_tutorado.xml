@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".materiasTutorado"
+    android:orientation="vertical"
+    android:background="@color/fondo2"
+    android:gravity="center"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            app:cardElevation="20dp"
+            app:cardCornerRadius="50dp"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+
+                >
+                <ImageView
+                    android:layout_marginTop="15dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/asignaturas"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp"
+
+                    >
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/fondo_edit_text"
+                        android:hint="Nombre o Matrcula"
+                        android:id="@+id/mat_txt_filtro"
+                        android:textColorHint="@color/black"
+                        android:textAlignment="center"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/lupa"
+
+                        android:id="@+id/tut_btn_buscar"
+
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_materias_tut"
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"/>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</LinearLayout>
