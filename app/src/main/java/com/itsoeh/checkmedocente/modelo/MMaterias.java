@@ -9,17 +9,19 @@ public class MMaterias implements Serializable {
     private String app;
     private String apm;
     private String nombreAsig;
+    private int idInscripcion;
 
 
     public MMaterias() {
     }
 
-    public MMaterias(String clave, String nombre, String app, String apm, String nombreAsig) {
+    public MMaterias(String clave, String nombre, String app, String apm, String nombreAsig, int idInscripcion) {
         this.clave = clave;
         this.nombre = nombre;
         this.app = app;
         this.apm = apm;
         this.nombreAsig = nombreAsig;
+        this.idInscripcion = idInscripcion;
     }
 
     public String getClave() {
@@ -62,6 +64,14 @@ public class MMaterias implements Serializable {
         this.nombreAsig = nombreAsig;
     }
 
+    public int getIdInscripcion() {
+        return idInscripcion;
+    }
+
+    public void setIdInscripcion(int idInscripcion) {
+        this.idInscripcion = idInscripcion;
+    }
+
     @Override
     public String toString() {
         return "MMaterias{" +
@@ -70,6 +80,7 @@ public class MMaterias implements Serializable {
                 ", app='" + app + '\'' +
                 ", apm='" + apm + '\'' +
                 ", nombreAsig='" + nombreAsig + '\'' +
+                ", idInscripcion=" + idInscripcion +
                 '}';
     }
 }

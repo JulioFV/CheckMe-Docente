@@ -126,9 +126,10 @@ public class materiasTutorado extends Fragment {
                                 obj.setApp(pos.getString("app"));
                                 obj.setApm(pos.getString("apm"));
                                 obj.setNombreAsig(pos.getString("nombreLargo"));
+                                obj.setIdInscripcion(pos.getInt("idInscripcion"));
 
                                 lista.add(obj);
-                                Log.e("COMO SE LLENA EL OBJ",lista.toString());
+                                Log.e("OBJ PARA FALTAS",lista.toString());
 
                             }
 
