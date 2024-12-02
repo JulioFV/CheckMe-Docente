@@ -121,6 +121,9 @@ public class MGrupo implements Serializable {
 
     @Override
     public String toString() {
+        return nombreAsig;
+    }
+    public String toString2() {
         return "MGrupo{" +
                 "idGrupo=" + idGrupo +
                 ", clave='" + clave + '\'' +

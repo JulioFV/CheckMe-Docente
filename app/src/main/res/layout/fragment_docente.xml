@@ -29,7 +29,7 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/user"
+                    android:src="@drawable/perfil"
                     android:background="#ffffff"
                     android:scaleType="centerCrop"
                     android:elevation="4dp"

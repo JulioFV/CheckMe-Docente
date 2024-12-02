@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_margin="15dp"
+                android:visibility="gone"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -80,44 +81,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_historial"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:orientation="horizontal"
-                >
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Periodo"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:id="@+id/hist_lblcreditos"
-                    android:textAlignment="center"
-                    />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Periodo"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:id="@+id/hist_lblpromedio"
-                    android:textAlignment="center"
-                    />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Periodo"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:id="@+id/hist_lblperiodo"
-                    android:textAlignment="center"
-                    />
-
-            </LinearLayout>
+                android:background="@color/white"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

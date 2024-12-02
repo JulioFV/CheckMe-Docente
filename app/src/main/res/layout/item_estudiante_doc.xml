@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+    android:layout_marginBottom="10dp"
     android:orientation="vertical"
     >
     <androidx.cardview.widget.CardView
@@ -12,16 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_gpo_cdvasig1"
-        android:layout_margin="20dp"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
+        android:layout_margin="10dp"
         android:backgroundTint="@color/fondo2">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:layout_margin="16dp">
+
+           >
 
             <ImageView
                 android:id="@+id/item_estu_img_gen"
@@ -202,6 +202,7 @@
                         android:layout_margin="10dp"
                         android:id="@+id/spin_pase_lista"
                         android:entries="@array/paselista"
+
                         />
 
                     <EditText
@@ -211,6 +212,7 @@
                         android:layout_margin="10dp"
                         android:textAlignment="center"
                         android:background="@drawable/fondo_edit_text"
+                        android:textColor="@color/black"
                         android:id="@+id/paselista_txtobservaciones"
                         />
 

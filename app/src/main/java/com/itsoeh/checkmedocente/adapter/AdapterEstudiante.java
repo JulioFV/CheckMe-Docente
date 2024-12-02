@@ -117,10 +117,11 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
                         try {
                             //LEER AQUI EL CONTENIDO DE LA VARIABLE response
                             msg.setTitle("Guardado");
-                            msg.setMessage("La información se guardó correctamente");
+                            msg.setMessage("Ya has pasado lista a");
                             msg.setPositiveButton("Aceptar",null);
                             AlertDialog dialog=msg.create();
                             msg.show();
+
 
 
 

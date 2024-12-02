@@ -51,6 +51,7 @@ public class frg_Registro extends Fragment {
     private Spinner spGenero;
     private NavController navegador;
     private int Gen;
+    private boolean Campos = true;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -74,7 +75,13 @@ public class frg_Registro extends Fragment {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clicRegistrar();
+                Validar();
+                if(Campos){
+                    clicRegistrar();
+                }else{
+                   Alerta();
+                }
+
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +102,44 @@ public class frg_Registro extends Fragment {
 
             }
         });
+    }
+
+    private void Alerta() {
+        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
+        msg.setTitle("CAMPOS INVALIDOS");
+        msg.setMessage("Rellena los campos solicitados");
+        msg.setPositiveButton("Aceptar",null);
+        AlertDialog dialog=msg.create();
+        msg.show();
+    }
+
+    private void Validar() {
+        Campos = true;
+
+        if (txtNombre.getText().toString().isEmpty()) {
+            Campos=false;
+        }
+        if (txtApp.getText().toString().isEmpty()) {
+            Campos=false;
+        }
+        if (txtApm.getText().toString().isEmpty()) {
+            Campos=false;
+        }
+        if (txtContrasenia.getText().toString().isEmpty()) {
+            Campos=false;
+        }
+        if (txtCorreo.getText().toString().isEmpty()) {
+            Campos=false;
+        }
+        if (txtGrado.getText().toString().isEmpty()) {
+            Campos=false;
+        }
+        if (txtTitulo.getText().toString().isEmpty()) {
+            Campos=false;
+        }
+        if (txtNumTrabajador.getText().toString().isEmpty()) {
+            Campos=false;
+        }
     }
 
     private void clicLogin() {

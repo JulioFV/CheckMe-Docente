@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_login_to_frg_Registro"
             app:destination="@id/frg_Registro" />
+        <action
+            android:id="@+id/action_login_to_recupera_Contrasenia"
+            app:destination="@id/recupera_Contrasenia" />
     </fragment>
     <fragment
         android:id="@+id/docente"
@@ -189,7 +192,11 @@
         android:id="@+id/materiasTutorado"
         android:name="com.itsoeh.checkmedocente.materiasTutorado"
         android:label="fragment_materias_tutorado"
-        tools:layout="@layout/fragment_materias_tutorado" />
+        tools:layout="@layout/fragment_materias_tutorado" >
+        <action
+            android:id="@+id/action_materiasTutorado_to_asistencias_tutorado"
+            app:destination="@id/asistencias_tutorado" />
+    </fragment>
     <fragment
         android:id="@+id/splashScreen"
         android:name="com.itsoeh.checkmedocente.SplashScreen"
@@ -199,4 +206,14 @@
             android:id="@+id/action_splashScreen_to_login"
             app:destination="@id/login" />
     </fragment>
+    <fragment
+        android:id="@+id/asistencias_tutorado"
+        android:name="com.itsoeh.checkmedocente.asistencias_tutorado"
+        android:label="fragment_asistencias_tutorado"
+        tools:layout="@layout/fragment_asistencias_tutorado" />
+    <fragment
+        android:id="@+id/recupera_Contrasenia"
+        android:name="com.itsoeh.checkmedocente.Recupera_Contrasenia"
+        android:label="fragment_recupera__contrasenia"
+        tools:layout="@layout/fragment_recupera__contrasenia" />
 </navigation>

@@ -102,7 +102,7 @@ public class grupos_docente extends Fragment {
         back = view.findViewById(R.id.grupos_btn_back);
         btnPerfil = view.findViewById(R.id.MisGrupos_btn_miPerfil);
         btnPase = view.findViewById(R.id.MisGrupos_btn_paseDeLista);
-        btnCrear = view.findViewById(R.id.Grupos_btn_crearGrupo);
+
         rec=view.findViewById(R.id.Misgrupos_RecyclerView);
         navegador = Navigation.findNavController(view);
 
@@ -117,11 +117,7 @@ public class grupos_docente extends Fragment {
                 clicBack();
             }
         });
-        btnCrear.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                clicCrear();
-            }
-        });
+
         btnPerfil.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clicPerfil();
@@ -254,7 +250,5 @@ public class grupos_docente extends Fragment {
     private void clicBack() {
         navegador.navigate(R.id.action_grupos_docente_to_docente, paquete);
     }
-    private void clicCrear() {
-        navegador.navigate(R.id.action_grupos_docente_to_CRUD_Grupo, paquete);
-    }
+
 }

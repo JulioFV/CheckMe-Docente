@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -81,15 +82,10 @@ public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.viewHolderGr
     }
 
     private void clicEliminar(View v) {
-        NavController nav = Navigation.findNavController(v);
-        paquete.putInt("op",1);
-        nav.navigate(R.id.action_grupos_docente_to_CRUD_Grupo,paquete);
+
     }
 
     private void clicEditar(View v) {
-        NavController nav = Navigation.findNavController(v);
-        paquete.putInt("op",2);
-        nav.navigate(R.id.action_grupos_docente_to_CRUD_Grupo,paquete);
 
     }
 
@@ -115,7 +111,7 @@ public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.viewHolderGr
 
         Button btnver;
         ImageView btnEditar,btnEliminar;
-        TextView txtNombreAsignatura, txtNombreDocente,txtClaveGrupo,txtPeriodo,txtOp;
+        EditText txtNombreAsignatura, txtNombreDocente,txtClaveGrupo,txtPeriodo,txtOp;
 
         public viewHolderGrupo(@NonNull View itemView) {
             super(itemView);

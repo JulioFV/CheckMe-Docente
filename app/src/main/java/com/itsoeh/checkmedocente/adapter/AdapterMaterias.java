@@ -5,9 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.itsoeh.checkmedocente.R;
@@ -20,6 +23,7 @@ public class AdapterMaterias extends RecyclerView.Adapter<AdapterMaterias.ViewHo
 
     private ArrayList<MMaterias> lista;
     private Bundle paquete;
+    private NavController navegador;
     public AdapterMaterias(ArrayList<MMaterias> lista) {
         this.lista = lista;
     }
@@ -37,10 +41,21 @@ public class AdapterMaterias extends RecyclerView.Adapter<AdapterMaterias.ViewHo
         holder.mat=lista.get(position);
 
 
+        paquete = new Bundle();//Creacion del Bundle
+        MMaterias mat=lista.get(position);
 
         holder.txtDocente.setText(holder.mat.getNombre());
         holder.txtClave.setText(holder.mat.getClave());
         holder.txtNombreMateria.setText(holder.mat.getNombreAsig());
+        holder.btnAsistencias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paquete.putSerializable("objeto" , mat);
+                Log.e("QUE SE PASA HACIA ASISTENCIAS",paquete.toString());
+                NavController nav = Navigation.findNavController(v);
+                nav.navigate(R.id.action_materiasTutorado_to_asistencias_tutorado,paquete);
+            }
+        });
     }
 
     @Override
@@ -53,11 +68,13 @@ public class AdapterMaterias extends RecyclerView.Adapter<AdapterMaterias.ViewHo
         TextView txtNombreMateria,txtClave,txtDocente;
 
         MMaterias mat;
+        ImageView btnAsistencias;
         public ViewHolderMaterias(@NonNull View itemView) {
             super(itemView);
             txtNombreMateria=itemView.findViewById(R.id.item_mat_nombreasig);
             txtClave=itemView.findViewById(R.id.item_mat_clave);
             txtDocente=itemView.findViewById(R.id.item_mat_docente);
+            btnAsistencias=itemView.findViewById(R.id.asistencias_tut);
         }
     }
 

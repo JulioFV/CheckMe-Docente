@@ -81,7 +81,7 @@ public class Docente extends Fragment {
 
         btnPerfil = view.findViewById(R.id.docente_btn_MiPerfil);
         btnMisGrupos = view.findViewById(R.id.docente_btn_MisGrupos);
-        btnPaseDeLista = view.findViewById(R.id.docente_btn_paseDeLista);
+
         Mistutorados = view.findViewById(R.id.docente_btn_mis_tutorados);
         AgrearTutorados = view.findViewById(R.id.docente_btn_add_tutorados);
         txtNombre = view.findViewById(R.id.docente_nombre);
@@ -92,8 +92,8 @@ public class Docente extends Fragment {
         paquete= this.getArguments();
         if(paquete!=null){
             obj=(MDocente) paquete.getSerializable("user");
-            txtNombre.setText(obj.getGrado()+" "+obj.getApp()+" "+obj.getApm()+" "+obj.getNombre());
-            txtTitulo.setText("Titulo: "+obj.getTitulo());
+            txtNombre.setText(obj.getApp()+" "+obj.getApm()+" "+obj.getNombre());
+            txtTitulo.setText("Titulo: "+obj.getGrado()+" "+obj.getTitulo());
             txtCorreo.setText("Correo: "+obj.getCorreo());
             txtNumT.setText("Numero de trabajador: "+obj.getNumTrabajador());
         }
@@ -104,9 +104,7 @@ public class Docente extends Fragment {
         btnMisGrupos.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){clicMisGrupos();}
         });
-        btnPaseDeLista.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){clicPaseDeLista();}
-        });
+
         Mistutorados.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){clicMisTutorados();}
         });

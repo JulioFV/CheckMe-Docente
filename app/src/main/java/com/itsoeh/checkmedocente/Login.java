@@ -45,6 +45,7 @@ public class Login extends Fragment {
     private TextView btnRegistro;
     private NavController navegador;
     private Bundle paquete;
+    private TextView btnRecupera;
     private MDocente obj;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,6 +102,13 @@ public class Login extends Fragment {
         txtContrasenia=view.findViewById(R.id.Login_txt_Contrasenia);
         txtUsuario=view.findViewById(R.id.login_txtNombre);
         btnRegistro = view.findViewById(R.id.login_registro);
+        btnRecupera=view.findViewById(R.id.login_Recuperar_contra);
+        btnRecupera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navegador.navigate(R.id.action_login_to_recupera_Contrasenia);
+            }
+        });
 
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override

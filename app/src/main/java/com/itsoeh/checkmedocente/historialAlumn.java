@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +21,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.itsoeh.checkmedocente.adapter.AdapterGeneral;
 import com.itsoeh.checkmedocente.modelo.MDocente;
+import com.itsoeh.checkmedocente.modelo.MGeneral;
 import com.itsoeh.checkmedocente.modelo.MHistorial;
+import com.itsoeh.checkmedocente.modelo.MMaterias;
 import com.itsoeh.checkmedocente.modelo.MTutor;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
@@ -28,6 +33,7 @@ import com.itsoeh.checkmedocente.volley.VolleySingleton;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,14 +47,15 @@ public class historialAlumn extends Fragment {
     private TextView lblPromedio,lblCreditos,lblPeriodo,lblNombre;
     private Bundle paquete;
     private MTutor tutor;
+    private RecyclerView rec;
+    private AdapterGeneral adapter;
+    private ArrayList<MGeneral> lista;
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        lblPromedio=view.findViewById(R.id.hist_lblpromedio);
-        lblCreditos=view.findViewById(R.id.hist_lblcreditos);
-        lblPeriodo=view.findViewById(R.id.hist_lblperiodo);
+        rec=view.findViewById(R.id.recycler_view_historial);
         lblNombre=view.findViewById(R.id.hist_lblnombre);
         paquete=getArguments();
 
@@ -57,8 +64,8 @@ public class historialAlumn extends Fragment {
             //op=paquete.getInt("op");
             lblNombre.setText(tutor.getNombre() +"");
         }
-        listarHistorial();
 
+        lista=llenadoDesdeBD();
 
     }
 
@@ -145,6 +152,84 @@ public class historialAlumn extends Fragment {
         };
         //ENVIA LA SOLICITUD
         colaDeSolicitudes.add(solicitud);
+    }
+
+    private ArrayList<MGeneral> llenadoDesdeBD() {
+        ArrayList<MGeneral> lista=new ArrayList<MGeneral>();
+        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
+
+        // Crear un ProgressBar
+        ProgressBar progressBar = new ProgressBar(this.getContext());
+        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
+
+        // Crear el AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Por favor, espera");
+        builder.setMessage("Conectandose con el servidor...");
+        builder.setView(progressBar);
+        builder.setCancelable(false); // Evitar que se pueda cancelar
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        RequestQueue colaDeSolicitudes= VolleySingleton.getInstance(this.getContext()).getRequestQueue();
+        StringRequest solicitud= new StringRequest(Request.Method.POST, API.LISTARH,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog.dismiss();//apaga el cuadro de dialogo
+                        try {
+                            //LEER AQUI EL CONTENIDO DE LA VARIABLE response
+                            JSONObject contenido = new JSONObject(response);
+                            JSONArray array=contenido.getJSONArray("contenido");
+                            MGeneral obj=new MGeneral();
+                            for (int i = 0; i < array.length(); i++) {
+                                obj=new MGeneral();
+                                JSONObject pos=new JSONObject(array.getString(i));
+                                obj.setIdHistorial(pos.getInt("idHistorial"));
+                                obj.setCreditos(pos.getInt("creditos"));
+                                obj.setProm(pos.getInt("prom"));
+                                obj.setIdEstudiante(pos.getInt("idEstudiante"));
+                                obj.setIdPeriodo(pos.getInt("idPeriodo"));
+                                obj.setPeriodo(pos.getString("nombre"));
+                                lista.add(obj);
+                            }
+                            Log.e("LISTA",obj.toString());
+                            rec.setHasFixedSize(true);
+                            rec.setLayoutManager(new LinearLayoutManager(getContext()));
+                            adapter=new AdapterGeneral(lista);
+                            rec.setAdapter(adapter);
+                        }catch (Exception ex){
+                            //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
+                            msg.setTitle("Error");
+                            msg.setMessage("No se pudo leer el archivo JSON....");
+                            msg.setPositiveButton("Aceptar",null);
+                            AlertDialog dialog = msg.create();
+                            msg.show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                // DETECTA ERRORES EN LA COMUNICACIÓN
+                msg.setTitle("Error");
+                msg.setMessage("No se pudo leer el archivo JSON*-*");
+                msg.setPositiveButton("Aceptar",null);
+                AlertDialog dialog = msg.create();
+                msg.show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> param=new HashMap<String,String>();
+                param.put("id",tutor.getIdEstudiante()+"");
+                return param;
+            }
+        };
+        //ENVIA LA SOLICITUD
+        colaDeSolicitudes.add(solicitud);
+
+        return lista;
     }
 
     // TODO: Rename parameter arguments, choose names that match

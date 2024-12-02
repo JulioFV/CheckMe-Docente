@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:text="N O M B R E"
         android:textSize="15sp"
-
+    android:layout_margin="3dp"
         />
 
 
@@ -86,6 +86,7 @@
                 android:hint="Nombre del Docente"
                 android:textSize="15sp"
                 android:gravity="center"
+                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:id="@+id/reg_txtnombre"
@@ -126,6 +127,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:hint="Apellido"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:textSize="15sp"
                     android:gravity="center"
                     android:layout_marginLeft="15dp"
@@ -139,6 +141,7 @@
                     android:layout_weight="1"
                     android:hint="Apellido"
                     android:textSize="15sp"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:gravity="center"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
@@ -160,6 +163,7 @@
                 android:layout_height="50dp"
                 android:inputType="textEmailAddress"
                 android:hint="ejemplo@ejemplo.com"
+
                 android:textSize="15sp"
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
@@ -216,6 +220,7 @@
                     android:textSize="15sp"
                     android:gravity="center"
                     android:layout_marginLeft="15dp"
+                    android:inputType="textPassword"
                     android:layout_marginRight="15dp"
                     android:id="@+id/reg_txtcontrasenia"
                     android:background="@drawable/fondo_edit_text"
@@ -256,6 +261,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:hint="Mtro."
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ."
                     android:textSize="15sp"
                     android:gravity="center"
                     android:layout_marginLeft="15dp"
@@ -268,6 +274,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="3"
                     android:hint="en Sistemas Computacionales"
+                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:textSize="15sp"
                     android:gravity="center"
                     android:layout_marginLeft="15dp"
