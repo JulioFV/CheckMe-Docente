@@ -109,6 +109,9 @@
         <action
             android:id="@+id/action_grupos_docente_to_estudiante_Docente"
             app:destination="@id/estudiante_Docente" />
+        <action
+            android:id="@+id/action_grupos_docente_to_grafica_Grupo"
+            app:destination="@id/grafica_Grupo" />
     </fragment>
     <fragment
         android:id="@+id/pase_de_lista"
@@ -168,7 +171,14 @@
         android:id="@+id/estudiante_Docente"
         android:name="com.itsoeh.checkmedocente.estudiante_Docente"
         android:label="fragment_estudiante__docente"
-        tools:layout="@layout/fragment_estudiante__docente" />
+        tools:layout="@layout/fragment_estudiante__docente" >
+        <action
+            android:id="@+id/action_estudiante_Docente_to_asistencias_Alumno"
+            app:destination="@id/asistencias_Alumno" />
+        <action
+            android:id="@+id/action_estudiante_Docente_to_grafica_Estudiante"
+            app:destination="@id/grafica_Estudiante" />
+    </fragment>
     <fragment
         android:id="@+id/frg_Registro"
         android:name="com.itsoeh.checkmedocente.frg_Registro"
@@ -216,4 +226,19 @@
         android:name="com.itsoeh.checkmedocente.Recupera_Contrasenia"
         android:label="fragment_recupera__contrasenia"
         tools:layout="@layout/fragment_recupera__contrasenia" />
+    <fragment
+        android:id="@+id/asistencias_Alumno"
+        android:name="com.itsoeh.checkmedocente.asistencias_Alumno"
+        android:label="fragment_asistencias__alumno"
+        tools:layout="@layout/fragment_asistencias__alumno" />
+    <fragment
+        android:id="@+id/grafica_Grupo"
+        android:name="com.itsoeh.checkmedocente.Grafica_Grupo"
+        android:label="fragment_grafica__grupo"
+        tools:layout="@layout/fragment_grafica__grupo" />
+    <fragment
+        android:id="@+id/grafica_Estudiante"
+        android:name="com.itsoeh.checkmedocente.Grafica_Estudiante"
+        android:label="fragment_grafica__estudiante"
+        tools:layout="@layout/fragment_grafica__estudiante" />
 </navigation>

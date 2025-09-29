@@ -198,7 +198,6 @@ public class estudiante_Docente extends Fragment {
                 //PASA PARAMETROS A LA SOLICITUD
 
                 param.put("id",objGpo.getIdDocente()+"");
-
                 param.put("clave",objGpo.getClave()+"");
 
 

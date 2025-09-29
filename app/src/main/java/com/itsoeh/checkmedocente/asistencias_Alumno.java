@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,11 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.itsoeh.checkmedocente.adapter.AdapterPaseLista;
-import com.itsoeh.checkmedocente.adapter.AdapterTutor;
-import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.modelo.MMaterias;
 import com.itsoeh.checkmedocente.modelo.MPaseLista;
-import com.itsoeh.checkmedocente.modelo.MTutor;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
@@ -40,28 +38,31 @@ import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link asistencias_tutorado#newInstance} factory method to
+ * Use the {@link asistencias_Alumno#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class asistencias_tutorado extends Fragment {
+public class asistencias_Alumno extends Fragment {
+
     private RecyclerView rec;
     private AdapterPaseLista adapter;
     private ArrayList<MPaseLista> lista;
     private Bundle paquete;
     private NavController navegador;
     private MMaterias obj;
-
+    private int idInscripcion;
+    private TextView lblNombre;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rec=view.findViewById(R.id.recycler_view_asistencias);
+        rec=view.findViewById(R.id.recycler_view_asistencias_alumno);
+        lblNombre=view.findViewById(R.id.asistencias_lblnombre);
         navegador = Navigation.findNavController(view);
-        lista=llenadoDesdeBD();
 
         paquete= this.getArguments();
-        if(paquete!=null){
-            obj=(MMaterias) paquete.getSerializable("objeto");
-        }
+        idInscripcion = paquete.getInt("idInscripcion");
+        lblNombre.setText(paquete.getString("nombre"));
+
+        lista=llenadoDesdeBD();
     }
 
     private ArrayList<MPaseLista> llenadoDesdeBD() {
@@ -104,10 +105,9 @@ public class asistencias_tutorado extends Fragment {
                                 obj.setIdInscripcion(pos.getInt("idInscripcion"));
                                 obj.setEstado(pos.getInt("estado"));
                                 obj.setObservaciones(pos.getString("observaciones"));
-                                obj.setOpcion(1);
+                                obj.setOpcion(2);
                                 Log.e("COMO SE LLENA EL OBJETO",obj.toString());
                                 lista.add(obj);
-
                             }
 
                             rec.setHasFixedSize(true);
@@ -147,7 +147,7 @@ public class asistencias_tutorado extends Fragment {
                 Map<String, String> param = new HashMap<String, String>();
                 //PASA PARAMETROS A LA SOLICITUD
 
-                param.put("idInscripcion",obj.getIdInscripcion()+"");
+                param.put("idInscripcion",idInscripcion+"");
 
 
                 return param;
@@ -169,7 +169,7 @@ public class asistencias_tutorado extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public asistencias_tutorado() {
+    public asistencias_Alumno() {
         // Required empty public constructor
     }
 
@@ -179,11 +179,11 @@ public class asistencias_tutorado extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment asistencias_tutorado.
+     * @return A new instance of fragment asistencias_Alumno.
      */
     // TODO: Rename and change types and number of parameters
-    public static asistencias_tutorado newInstance(String param1, String param2) {
-        asistencias_tutorado fragment = new asistencias_tutorado();
+    public static asistencias_Alumno newInstance(String param1, String param2) {
+        asistencias_Alumno fragment = new asistencias_Alumno();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -204,6 +204,6 @@ public class asistencias_tutorado extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_asistencias_tutorado, container, false);
+        return inflater.inflate(R.layout.fragment_asistencias__alumno, container, false);
     }
 }

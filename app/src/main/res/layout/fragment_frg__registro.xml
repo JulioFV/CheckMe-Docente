@@ -5,10 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".frg_Registro"
-    android:background="@color/fondo"
+    android:background="@color/fondo2"
     android:orientation="vertical">
-
-    <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -338,7 +336,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal"
-
+                android:background="@color/fondo"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -346,7 +344,7 @@
                     android:layout_weight="2"
                     android:text="Registrarse"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="25sp"
                     android:textStyle="bold" />
                 <ImageView

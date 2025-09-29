@@ -22,16 +22,35 @@
             android:layout_height="wrap_content"
 
            >
+            <ImageView
+                android:id="@+id/item_estu_grafica"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/g_pastel"
+                android:clickable="true"
+                android:layout_marginTop="230dp"
+                />
 
             <ImageView
                 android:id="@+id/item_estu_img_gen"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:src="@drawable/perfil_alumn"
+                android:layout_marginTop="50dp"
+                />
+
+            <ImageView
+                android:id="@+id/item_estu_asistencias"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/perfil_alumn"
+                android:src="@drawable/asistencias"
+                android:clickable="true"
 
                 />
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

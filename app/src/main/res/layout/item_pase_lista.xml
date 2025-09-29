@@ -29,14 +29,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PASE DE LISTA"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_margin="15dp"
-                    />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,7 +104,6 @@
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:layout_margin="10dp"
-
                         />
 
                 </LinearLayout>
@@ -140,7 +132,53 @@
 
                         />
 
+
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/linear_editar_asistencia"
+                    android:visibility="gone"
+                    >
+                    <Switch
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sw_editar_pase"
+                        />
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/fondo_edit_text"
+                        android:entries="@array/paselista"
+                        android:id="@+id/sp_editar_estado"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Id Pase:"
+                        android:id="@+id/it_pase_txtcambiarestado"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_margin="10dp"
+
+                        />
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/check"
+                    android:clickable="false"
+                    android:visibility="gone"
+                    android:id="@+id/btn_modificar_asistencia"
+                    />
             </LinearLayout>
 
         </RelativeLayout>

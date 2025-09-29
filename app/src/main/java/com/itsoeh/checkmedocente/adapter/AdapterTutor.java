@@ -39,8 +39,6 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull AdapterTutor.ViewHolder holder, int position) {
             MTutor mTutor = lista.get(position);
-
-
         // AQUI VAN LOS EVENTOS DE SET TEXT Y ONCLICK LISTENER
         MTutor tut=lista.get(position);
         holder.lblCorreo.setText(mTutor.getCorreo()+"");
@@ -64,7 +62,6 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
                 clicHistorial(v);
             }
         });
-
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,25 +81,21 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
 
     private void clicMaterias(View v) {
         NavController nav = Navigation.findNavController(v);
-
         nav.navigate(R.id.action_frg_Tutorados_to_materiasTutorado,paquete);
     }
 
     private void clicHistorial(View v) {
         NavController nav = Navigation.findNavController(v);
-
         nav.navigate(R.id.action_frg_Tutorados_to_historialAlumn,paquete);
     }
 
     private void clicPerfilAlumn(View v) {
         NavController nav = Navigation.findNavController(v);
-
         nav.navigate(R.id.action_frg_Tutorados_to_perfil_Alumno,paquete);
     }
 
     private void clicEliminar(View v) {
         NavController nav = Navigation.findNavController(v);
-
         nav.navigate(R.id.action_frg_Tutorados_to_del_Tutorado,paquete);
     }
 
@@ -118,11 +111,9 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView lblMatricula,lblNombreEstu,lblIdEstu,lblCorreo,lblIdGrupo,lblIDasig;
         private ImageView btnEliminar;
-       private ImageView btnHistorial,btnAsignaturas,btnPerfilAlumn;
-
+        private ImageView btnHistorial,btnAsignaturas,btnPerfilAlumn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             btnEliminar=itemView.findViewById(R.id.it_est_btn_eliminar);
             lblMatricula = itemView.findViewById(R.id.item_est_lblmatricula);
             lblNombreEstu = itemView.findViewById(R.id.item_est_lblnombre);
@@ -130,11 +121,9 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
             lblCorreo = itemView.findViewById(R.id.item_est_lblcorreo);
             lblIdGrupo = itemView.findViewById(R.id.item_gpo_lblgrupo);
             lblIDasig = itemView.findViewById(R.id.item_gpo_lbl_id_ins);
-
             btnHistorial = itemView.findViewById(R.id.item_estu_btnhistorial);
             btnAsignaturas=itemView.findViewById(R.id.item_estu_btnasignaturas);
             btnPerfilAlumn=itemView.findViewById(R.id.item_estu_btnperfil_alumn);
-
         }
     }
 

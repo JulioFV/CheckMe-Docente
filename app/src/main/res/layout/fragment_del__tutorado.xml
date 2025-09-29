@@ -14,10 +14,10 @@
         android:src="@drawable/regresar"
         android:padding="10dp"
         android:layout_margin="20dp"
+        android:visibility="gone"
         android:clickable="true"
         android:id="@+id/del_tut_btn_regresar"
         />
-    <!-- TODO: Update blank fragment layout -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

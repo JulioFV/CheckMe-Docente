@@ -20,8 +20,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_margin="16dp">
+        android:layout_margin="7dp">
+
 
         <ImageView
             android:id="@+id/item_gpo_icon"
@@ -29,6 +29,7 @@
             android:layout_height="55dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+
             android:src="@drawable/grupos" />
 
         <LinearLayout
@@ -191,6 +192,13 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:id="@+id/it_btn_eliminar"
+                    />
+                <ImageView
+                    android:id="@+id/it_btn_grafica"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/g_pastel"
+
                     />
 
 

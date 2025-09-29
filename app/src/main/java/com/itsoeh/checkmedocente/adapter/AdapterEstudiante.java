@@ -38,6 +38,7 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
     private int genero;
     private Context contexto;
     private int est;
+    private Bundle paquete;
 
 
     public AdapterEstudiante(ArrayList<MEstudiante> lista) {
@@ -57,13 +58,37 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
     @Override
     public void onBindViewHolder(@NonNull AdapterEstudiante.ViewHolderEstudiante holder, int position) {
         MEstudiante estu = lista.get(position);
+        paquete = new Bundle();//Creacion del Bundle
+
+
         holder.txtNombre.setText(estu.getNombre());
         holder.txtmat.setText(estu.getMatricula() + "");
         holder.txtcorreo.setText(estu.getCorreo());
         holder.idGrupo.setText(estu.getIdGrupo() + "");
         holder.idEstudiante.setText(estu.getIdEstudiante() + "");
         holder.idInscripcion.setText(estu.getIdInscripcion() + "");
+
+        holder.btnGrafica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paquete.putInt("idEstudiante",estu.getIdEstudiante());
+                NavController nav = Navigation.findNavController(v);
+                nav.navigate(R.id.action_estudiante_Docente_to_grafica_Estudiante,paquete);
+            }
+        });
         genero = Integer.parseInt(estu.getGen());
+
+        holder.btnAsistencias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paquete.putString("nombre" , estu.getNombre());
+                paquete.putInt("idInscripcion",estu.getIdInscripcion());
+                Log.e("QUE SE PASA HACIA ASISTENCIAS",paquete.toString());
+                NavController nav = Navigation.findNavController(v);
+               nav.navigate(R.id.action_estudiante_Docente_to_asistencias_Alumno,paquete);
+            }
+        });
+
         holder.spinEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -76,9 +101,9 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
             }
         });
 
-        if (genero ==  0) {
+        if (genero ==  1) {
             holder.imgFoto.setImageResource(R.drawable.perfil_alumna);
-        } else if (genero == 1) {
+        } else if (genero == 0) {
             holder.imgFoto.setImageResource(R.drawable.perfil_alumn);
 
         }
@@ -90,6 +115,7 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
         });
 
     }
+
 
     private void clicPasarLista(int idInscripcion,int estado,String observaciones) {
 
@@ -181,7 +207,7 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
         TextView txtNombre, txtmat, txtcorreo, idGrupo, idEstudiante, idInscripcion;
         EditText txtObservaciones;
         Spinner spinEstado;
-        ImageView imgFoto,btnPaseLista;
+        ImageView imgFoto,btnPaseLista,btnAsistencias,btnGrafica;
 
         public ViewHolderEstudiante(@NonNull View itemView) {
             super(itemView);
@@ -195,6 +221,8 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
             txtObservaciones = itemView.findViewById(R.id.paselista_txtobservaciones);
             spinEstado = itemView.findViewById(R.id.spin_pase_lista);
             btnPaseLista = itemView.findViewById(R.id.btn_pase_lista_alumn);
+            btnAsistencias = itemView.findViewById(R.id.item_estu_asistencias);
+            btnGrafica =itemView.findViewById(R.id.item_estu_grafica);
 
         }
     }

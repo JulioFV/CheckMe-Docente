@@ -14,6 +14,7 @@
         android:clickable="true"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
+        android:visibility="gone"
         android:background="#005c61">
 
         <ImageView
@@ -61,9 +62,10 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:id="@+id/crudgpo_txtclavegpo"
+                    android:background="@drawable/fondo_edit_text"
                     android:hint="Clave Grupo"
                     android:paddingStart="8dp"
                     android:paddingLeft="8dp" />
@@ -84,20 +86,25 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Id Asignatura"
-
+android:visibility="gone"
                     android:id="@+id/frgcrudgpo_txtidasig"
                     android:paddingStart="8dp"
                     android:paddingLeft="8dp" />
                 <Spinner
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:id="@+id/frgcrud_spinnerAsig"/>
+                    android:id="@+id/frgcrud_spinnerAsig"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/fondo_edit_text"
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
 
                 <ImageView
                     android:layout_width="24dp"
@@ -132,8 +139,17 @@
                     android:layout_weight="1"
                     android:hint="Id del preriodo"
                     android:id="@+id/crudgpo_txt_idperiodo"
+                    android:visibility="gone"
                     android:paddingStart="8dp"
                     android:paddingLeft="8dp" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/fondo_edit_text"
+                    android:layout_weight="1"
+                    android:id="@+id/frgcrud_spiner_per"
+                   android:layout_marginTop="10dp"
+                    />
             </LinearLayout>
 
 
@@ -146,12 +162,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_margin="3dp"
+
+                    android:layout_marginTop="20dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:elevation="4dp"
                     app:cardCornerRadius="16dp"
-                    android:id="@+id/crudgpo_btnguardar">
+                    android:id="@+id/crudgpo_btnguardar"
+
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"

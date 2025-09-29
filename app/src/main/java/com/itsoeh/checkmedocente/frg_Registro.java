@@ -177,6 +177,7 @@ public class frg_Registro extends Fragment {
                             msg.setPositiveButton("Aceptar",null);
                             AlertDialog dialog=msg.create();
                             msg.show();
+                            navegador.navigate(R.id.action_frg_Registro_to_login);
 
 
 

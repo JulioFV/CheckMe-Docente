@@ -72,24 +72,31 @@ public class frg_Tutorados extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        paquete=getArguments();
+        if(paquete != null){
+            objDoc = (MDocente) paquete.getSerializable("user");
+            Log.e("OBJETO A TUTORADOS",objDoc.toString());
+        }
 
         txtFiltro = view.findViewById(R.id.tut_txt_filtro);
         btnAgrgarTutorado=view.findViewById(R.id.tut_btn_addtut);
-        
         btnPerfil=view.findViewById(R.id.tut_btn_perfil);
         btnGrupos=view.findViewById(R.id.tut_btn_grupos);
         btnMenu=view.findViewById(R.id.tut_btn_menu);
-        
-        navegador = Navigation.findNavController(view);
+        rec=view.findViewById(R.id.recycler_view_tutorados);
         spinGpo=view.findViewById(R.id.frgtut_spin_gpo);
         txtGrupo=view.findViewById(R.id.tut_txtgpo);
-        paquete=getArguments();
+
+        navegador = Navigation.findNavController(view);
+
 
         listaGpo= new ArrayList<MGrupo>();
-        rec=view.findViewById(R.id.recycler_view_tutorados);
+
+        this.cargarGrupos(view);
 
         lista=llenadoDesdeBD();
-        this.cargarGrupos(view);
+
+
         btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,10 +128,7 @@ public class frg_Tutorados extends Fragment {
 
             }
         });
-        if(paquete != null){
-            objDoc = (MDocente) paquete.getSerializable("user");
-            Log.e("OBJETO POR BUNDLE",objDoc.toString());
-        }
+
         btnAgrgarTutorado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,8 +152,6 @@ public class frg_Tutorados extends Fragment {
 
             }
         });
-
-
 
     }
 
@@ -204,13 +206,112 @@ public class frg_Tutorados extends Fragment {
         adapter.filtro(lista2);
     }
 
-
-    private ArrayList<MTutor> llenadoDesdeBD() {
-        ArrayList<MTutor> lista=new ArrayList<MTutor>();
-
-        //Crea un AlertDialog
+    private void cargarGrupos(View v) {
+        // Crear un AlertDialog para indicar que se está conectando al servidor
         AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
 
+        // Crear un ProgressBar con estilo de carga indeterminada
+        ProgressBar progressBar = new ProgressBar(this.getContext());
+        progressBar.setIndeterminate(true);
+
+        // Configurar el AlertDialog con un título, mensaje y ProgressBar
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Por favor, espera");
+        builder.setMessage("Conectandose con el servidor...");
+        builder.setView(progressBar);
+        builder.setCancelable(false); // Evitar que el usuario pueda cerrar el dialogo manualmente
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Crear la cola de solicitudes usando VolleySingleton
+        RequestQueue colaDeSolicitudes = VolleySingleton.getInstance(this.getContext()).getRequestQueue();
+
+        // Crear una solicitud POST para obtener los datos de los grupos
+        StringRequest solicitud = new StringRequest(Request.Method.POST, API.LISTARGPOTUTORADO,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog.dismiss(); // Cerrar el cuadro de diálogo al recibir respuesta
+
+                        int posi = 0; // Variable para guardar la posición del grupo seleccionado
+                        try {
+                            // Convertir la respuesta en un objeto JSON
+                            JSONObject contenido = new JSONObject(response);
+                            JSONArray array = contenido.getJSONArray("contenido");
+
+                            MGrupo obj;
+
+                            // Iterar sobre el array JSON para procesar los datos
+                            for (int i = 0; i < array.length(); i++) {
+                                obj = new MGrupo();
+                                JSONObject pos = new JSONObject(array.getString(i));
+                                // Asignar valores al objeto MGrupo
+                                obj.setIdGrupo(pos.getInt("idGrupo"));
+                                obj.setIdAsignatura(pos.getInt("idAsignatura"));
+                                obj.setIdDocente(pos.getInt("idDocente"));
+                                obj.setIdPeriodo(pos.getInt("idPeriodo"));
+                                obj.setClave(pos.getString("clave"));
+                                obj.setNombreAsig(pos.getString("nombreAsig"));
+                                obj.setNombreDoc(pos.getString("nombreDoc") + " " +
+                                        pos.getString("app") + " " + pos.getString("apm"));
+                                obj.setNombrePer(pos.getString("nombrePer"));
+                                listaGpo.add(obj); // Agregar el objeto a la lista de grupos
+                                // Verificar si es el grupo seleccionado
+                                if (grupo != null && obj.getIdGrupo() == grupo.getIdGrupo()) {
+                                    posi = i;
+                                }
+                            }
+
+                            // Crear un ArrayAdapter para poblar un Spinner con los grupos
+                            ArrayAdapter<MGrupo> adapter2 = new ArrayAdapter<>(v.getContext(),
+                                    android.R.layout.simple_spinner_item, listaGpo);
+                            // Configurar el estilo del dropdown del Spinner
+                            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            // Asignar el adapter al Spinner
+                            spinGpo.setAdapter(adapter2);
+                            spinGpo.setSelection(posi); // Seleccionar el grupo correspondiente
+
+                        } catch (Exception ex) {
+                            // Manejar errores en la lectura del JSON
+                            msg.setTitle("Error");
+                            msg.setMessage("La información no se pudo leer");
+                            msg.setPositiveButton("Aceptar", null);
+                            AlertDialog dialog = msg.create();
+                            dialog.show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog.dismiss(); // Cerrar el cuadro de diálogo en caso de error
+
+                        // Manejar errores de comunicación con el servidor
+                        msg.setTitle("Error");
+                        msg.setMessage("No se puede conectar al servidor");
+                        msg.setPositiveButton("Aceptar", null);
+                        AlertDialog dialog = msg.create();
+                        dialog.show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Pasar parámetros a la solicitud
+                Map<String, String> param = new HashMap<>();
+                param.put("id", objDoc.getIdDocente() + "");
+                return param;
+            }
+        };
+
+        // Enviar la solicitud a la cola de solicitudes
+        colaDeSolicitudes.add(solicitud);
+    }
+    private ArrayList<MTutor> llenadoDesdeBD() {
+
+        ArrayList<MTutor> lista=new ArrayList<MTutor>();
+        //Crea un AlertDialog
+        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
         // Crear un ProgressBar
         ProgressBar progressBar = new ProgressBar(this.getContext());
         progressBar.setIndeterminate(true); // Estilo de carga indeterminada
@@ -246,10 +347,7 @@ public class frg_Tutorados extends Fragment {
                                 obj.setCorreo(pos.getString("correo"));
                                 obj.setMatricula(pos.getString("matricula"));
 
-                             //   obj.setIdGrupo(pos.getInt("idGrupo"));
-                               // obj.setNombreCorto(pos.getString("nombreCorto"));
                                 obj.setIdEstudiante(pos.getInt("idEstudiante"));
-
                                 obj.setEdo(pos.getString("edo"));
                                 obj.setMuni(pos.getString("muni"));
                                 obj.setCol(pos.getString("col"));
@@ -264,25 +362,14 @@ public class frg_Tutorados extends Fragment {
                             rec.setLayoutManager(new LinearLayoutManager(getContext()));
                             adapter=new AdapterTutor(lista);
                             rec.setAdapter(adapter);
-
-
-
-
-
-
-
                         }catch (Exception ex){
                             //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
-
                             msg.setTitle("Error");
                             msg.setMessage("La información no se pudo leer");
                             msg.setPositiveButton("Aceptar",null);
                             AlertDialog dialog=msg.create();
                             msg.show();
-                            Log.e("Error",ex.toString());
-
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -317,108 +404,8 @@ public class frg_Tutorados extends Fragment {
     }
 
 
-    private void cargarGrupos(View v) {
-        // Crear el AlertDialog
-        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
-
-        // Crear un ProgressBar
-        ProgressBar progressBar = new ProgressBar(this.getContext());
-        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
-
-        // Crear el AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Por favor, espera");
-        builder.setMessage("Conectandose con el servidor...");
-        builder.setView(progressBar);
-        builder.setCancelable(false); // Evitar que se pueda cancelar
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        RequestQueue colaDeSolicitudes = VolleySingleton.getInstance(this.getContext()).getRequestQueue();
-        StringRequest solicitud = new StringRequest(Request.Method.POST, API.LISTARGPOTUTORADO,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        dialog.dismiss();//apaga el cuadro de dialogo
-                        int posi = 0;
-                        try {
-                            //LEER AQUI EL CONTENIDO DE LA VARIABLE response
-                            JSONObject contenido = new JSONObject(response);//convierte la respuesta en un objeto JSON
-                            JSONArray array = contenido.getJSONArray("contenido");//
-
-                            MGrupo obj = new MGrupo();
-
-                            for (int i = 0; i < array.length(); i++) {//recorre el arreglo
-                                obj = new MGrupo();
-                                JSONObject pos = new JSONObject(array.getString(i));//convierte la posicion en un objeto JSON
-                                obj.setIdGrupo(pos.getInt("idGrupo"));
-                                obj.setIdAsignatura(pos.getInt("idAsignatura"));
-                                obj.setIdDocente(pos.getInt("idDocente"));
-                                obj.setIdPeriodo(pos.getInt("idPeriodo"));
-                                obj.setClave(pos.getString("clave"));
-                                obj.setNombreAsig(pos.getString("nombreAsig"));
-                                obj.setNombreDoc(pos.getString("nombreDoc") + " " + pos.getString("app") + " " +
-                                        pos.getString("apm"));
-                                obj.setNombrePer(pos.getString("nombrePer"));
 
 
-                                listaGpo.add(obj);
-                                if (grupo != null)
-                                    if (obj.getIdGrupo() == grupo.getIdGrupo()) {
-                                        posi = i;
-
-                                    }
-                            }
-
-                            // Crear un ArrayAdapter utilizando el array de objetos
-
-                            ArrayAdapter<MGrupo> adapter2 = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_spinner_item, listaGpo);
-
-
-                            // Especificar el layout a usar
-                            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
-                            // Asignar el adapter al Spinner
-                            spinGpo.setAdapter(adapter2);
-                            spinGpo.setSelection(posi);
-
-
-                        } catch (Exception ex) {
-                            //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
-                            msg.setTitle("Error");
-                            msg.setMessage("La información no se pudo leer");
-                            msg.setPositiveButton("Aceptar", null);
-                            AlertDialog dialog = msg.create();
-                            dialog.show();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                // DETECTA ERRORES EN LA COMUNICACIÓN
-                msg.setTitle("Error");
-                msg.setMessage("No se puede conectar al servidor");
-                msg.setPositiveButton("Aceptar", null);
-                AlertDialog dialog = msg.create();
-                dialog.show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> param = new HashMap<String, String>();
-                //PASA PARAMETROS A LA SOLICITUD
-                param.put("id", objDoc.getIdDocente()+"");
-                // param.put("id","1");
-
-                return param;
-            }
-        };
-        //ENVIA LA SOLICITUD
-        colaDeSolicitudes.add(solicitud);
-    }
 
 
     // TODO: Rename parameter arguments, choose names that match

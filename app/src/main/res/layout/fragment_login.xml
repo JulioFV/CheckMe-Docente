@@ -25,7 +25,6 @@
         android:orientation="vertical"
         android:padding="25dp">
 
-        <!-- Título de Login -->
         <TextView
 
             android:layout_width="wrap_content"
@@ -50,8 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/fondo_edit_text"
-                android:hint="Nombre"
-                android:text="marioPB@itsoeh.edu.mx"
+                android:hint="Example@itsoeh.edu.mx"
                 android:padding="16dp"
                 android:textColor="#000000"
                 android:textColorHint="#000000" />
@@ -72,7 +70,6 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/fondo_edit_text"
                 android:hint="Contraseña"
-                android:text="12345"
                 android:padding="16dp"
                 android:inputType="textPassword"
                 android:textColor="#000000"

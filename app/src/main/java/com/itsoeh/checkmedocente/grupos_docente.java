@@ -1,5 +1,6 @@
 package com.itsoeh.checkmedocente;
 
+import android.app.MediaRouteButton;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,10 +13,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.android.volley.Request;
@@ -23,6 +27,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.itsoeh.checkmedocente.adapter.AdapterGrupo;
 import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.modelo.MGrupo;
@@ -42,12 +47,14 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class grupos_docente extends Fragment {
-    private CardView back, btnPerfil, btnPase, btnCrear;
+    private CardView back;
     private NavController navegador;
+    private EditText txtFiltro;
     private RecyclerView rec;
     private ArrayList<MGrupo> lista;
     private AdapterGrupo adapter;
     MDocente obj = new MDocente();
+    private FloatingActionButton btnAdd;
     private  Bundle paquete;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -100,9 +107,8 @@ public class grupos_docente extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         back = view.findViewById(R.id.grupos_btn_back);
-        btnPerfil = view.findViewById(R.id.MisGrupos_btn_miPerfil);
-        btnPase = view.findViewById(R.id.MisGrupos_btn_paseDeLista);
-
+        txtFiltro=view.findViewById(R.id.Grupos_txtNombre);
+        btnAdd = view.findViewById(R.id.frggpo_btn_mas);
         rec=view.findViewById(R.id.Misgrupos_RecyclerView);
         navegador = Navigation.findNavController(view);
 
@@ -112,20 +118,36 @@ public class grupos_docente extends Fragment {
             Log.e("datosMaestro",obj.toString());
         }
 
-        back.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                clicBack();
+                MGrupo obj2=new MGrupo();
+                obj2.setIdDocente(obj.getIdDocente());
+                paquete.putSerializable("objeto" , obj2);
+                navegador.navigate(R.id.action_grupos_docente_to_CRUD_Grupo,paquete);
             }
         });
 
-        btnPerfil.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                clicPerfil();
+        txtFiltro.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                buscador(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
-        btnPase.setOnClickListener(new View.OnClickListener() {
+
+        back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                clicPase();
+                clicBack();
             }
         });
 
@@ -144,6 +166,29 @@ public class grupos_docente extends Fragment {
         rec.setAdapter(adapter);
     }
 
+    private void buscador(String s) {
+        if (s == null || s.isEmpty()) {
+            // Si la cadena es vacía, muestra todos los elementos
+            adapter.filtro(lista);
+            return;
+        }
+
+        ArrayList<MGrupo> lista2 = new ArrayList<>();
+
+        // Convertir s a minúsculas para hacer la búsqueda insensible a mayúsculas
+        String searchString = s.toLowerCase();
+
+        for (MGrupo gpo : lista) {
+            // Comparar en minúsculas para que sea insensible a mayúsculas
+            if (gpo.getClave().toLowerCase().contains(searchString) ||
+                    gpo.getNombreAsig().toLowerCase().contains(searchString)) {
+                lista2.add(gpo);
+            }
+        }
+
+        // Actualizar el adaptador con la lista filtrada
+        adapter.filtro(lista2);
+    }
 
 
     private ArrayList<MGrupo> llenadoDesdeBD() {

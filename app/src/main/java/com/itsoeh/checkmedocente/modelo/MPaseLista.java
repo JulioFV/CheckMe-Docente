@@ -9,16 +9,18 @@ public class MPaseLista implements Serializable {
     private int idInscripcion;
     private int estado;
     private String observaciones;
+    private int opcion;
 
     public MPaseLista() {
     }
 
-    public MPaseLista(int idPase, String fecha, int idInscripcion, int estado, String observaciones) {
+    public MPaseLista(int idPase, String fecha, int idInscripcion, int estado, String observaciones, int opcion) {
         this.idPase = idPase;
         this.fecha = fecha;
         this.idInscripcion = idInscripcion;
         this.estado = estado;
         this.observaciones = observaciones;
+        this.opcion = opcion;
     }
 
     public int getIdPase() {
@@ -61,6 +63,14 @@ public class MPaseLista implements Serializable {
         this.observaciones = observaciones;
     }
 
+    public int getOpcion() {
+        return opcion;
+    }
+
+    public void setOpcion(int opcion) {
+        this.opcion = opcion;
+    }
+
     @Override
     public String toString() {
         return "MPaseLista{" +
@@ -69,6 +79,7 @@ public class MPaseLista implements Serializable {
                 ", idInscripcion=" + idInscripcion +
                 ", estado=" + estado +
                 ", observaciones='" + observaciones + '\'' +
+                ", opcion=" + opcion +
                 '}';
     }
 }
