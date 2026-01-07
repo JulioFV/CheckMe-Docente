@@ -77,6 +77,12 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
                 clicPerfilAlumn(v);
             }
         });
+        int genero = Integer.parseInt(mTutor.getGen());
+        if (genero ==  0) {
+            holder.btnPerfilAlumn.setImageResource(R.drawable.perfil_alumna);
+        } else if (genero == 1) {
+            holder.btnPerfilAlumn.setImageResource(R.drawable.perfil_alumn);
+        }
     }
 
     private void clicMaterias(View v) {
@@ -124,6 +130,7 @@ public class AdapterTutor extends RecyclerView.Adapter<AdapterTutor.ViewHolder>{
             btnHistorial = itemView.findViewById(R.id.item_estu_btnhistorial);
             btnAsignaturas=itemView.findViewById(R.id.item_estu_btnasignaturas);
             btnPerfilAlumn=itemView.findViewById(R.id.item_estu_btnperfil_alumn);
+
         }
     }
 

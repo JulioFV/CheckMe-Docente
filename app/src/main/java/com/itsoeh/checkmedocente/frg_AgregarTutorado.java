@@ -27,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.modelo.MGrupo;
+import com.itsoeh.checkmedocente.utils.SessionManager;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 import com.itsoeh.checkmedocente.volley.API;
 
@@ -45,6 +46,7 @@ import java.util.Map;
 public class frg_AgregarTutorado extends Fragment {
 
     private ImageView btnTutorados,btnAgregar,btnGrupos,btnPerfil,btnMenu;
+    private SessionManager sessionManager;
     private NavController navegador;
     private EditText txtIdGrupo,txtIdEstudiante,txtOp;
     private Bundle paquete;
@@ -61,6 +63,7 @@ public class frg_AgregarTutorado extends Fragment {
         btnAgregar = view.findViewById(R.id.add_tut_btn_add);
         txtIdGrupo = view.findViewById(R.id.add_tut_txtid_gpo);
         txtIdEstudiante = view.findViewById(R.id.add_tut_txtid_est);
+        sessionManager = new SessionManager(this.getActivity().getApplicationContext());
         txtOp=view.findViewById(R.id.add_tut_txt_op);
         btnGrupos=view.findViewById(R.id.addtut_btn_grupos);
         btnPerfil=view.findViewById(R.id.addtut_btn_perfil);
@@ -69,10 +72,11 @@ public class frg_AgregarTutorado extends Fragment {
         listaGpo= new ArrayList<MGrupo>();
         navegador = Navigation.findNavController(view);//ESTO ES PARA QUER FUNCIONE EL NAVEGADOR
         paquete=getArguments();
-        if(paquete != null){
-            objDoc = (MDocente) paquete.getSerializable("user");
 
-        }
+            objDoc = sessionManager.getDoc();
+
+
+
         this.cargarGrupos(view);
         spinGpo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

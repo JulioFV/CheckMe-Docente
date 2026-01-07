@@ -1,9 +1,10 @@
 package com.itsoeh.checkmedocente.volley;
 
     public interface API {
-        public String URL ="http://192.168.0.107/ws/";
-        public String URL2 ="https://darkseagreen-wasp-520101.hostingersite.com/ws/CheckMe/Estudiante/";
-        public String URL3 ="https://darkseagreen-wasp-520101.hostingersite.com/ws/CheckMe/Admin/";
+        public String Servidor = "https://90d4021f5061.ngrok-free.app";
+        public String URL = Servidor + "/CheckMe/Docente/";
+        public String URL2 = Servidor + "/CheckMe/Estudiante/";
+        public String URL3 = Servidor + "/CheckMe/Admin/";
 
 
 

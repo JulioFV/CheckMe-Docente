@@ -31,6 +31,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.itsoeh.checkmedocente.adapter.AdapterGrupo;
 import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.modelo.MGrupo;
+import com.itsoeh.checkmedocente.utils.Alert;
+import com.itsoeh.checkmedocente.utils.SessionManager;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
@@ -47,11 +49,13 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class grupos_docente extends Fragment {
+    private SessionManager sessionManager;
     private CardView back;
     private NavController navegador;
     private EditText txtFiltro;
     private RecyclerView rec;
     private ArrayList<MGrupo> lista;
+    private Alert alerta;
     private AdapterGrupo adapter;
     MDocente obj = new MDocente();
     private FloatingActionButton btnAdd;
@@ -106,25 +110,26 @@ public class grupos_docente extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sessionManager = new SessionManager(this.getActivity().getApplicationContext());
         back = view.findViewById(R.id.grupos_btn_back);
+        back.setVisibility(View.GONE);
         txtFiltro=view.findViewById(R.id.Grupos_txtNombre);
         btnAdd = view.findViewById(R.id.frggpo_btn_mas);
         rec=view.findViewById(R.id.Misgrupos_RecyclerView);
         navegador = Navigation.findNavController(view);
+        alerta = new Alert(this.getContext());
 
         paquete=this.getArguments();
-        if(paquete!=null){
-            obj=(MDocente) paquete.getSerializable("user");
+
+            obj= sessionManager.getDoc();
             Log.e("datosMaestro",obj.toString());
-        }
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MGrupo obj2=new MGrupo();
-                obj2.setIdDocente(obj.getIdDocente());
-                paquete.putSerializable("objeto" , obj2);
-                navegador.navigate(R.id.action_grupos_docente_to_CRUD_Grupo,paquete);
+;
+                navegador.navigate(R.id.action_grupos_docente_to_CRUD_Grupo);
             }
         });
 
@@ -142,12 +147,6 @@ public class grupos_docente extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-            }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                clicBack();
             }
         });
 
@@ -193,29 +192,15 @@ public class grupos_docente extends Fragment {
 
     private ArrayList<MGrupo> llenadoDesdeBD() {
         ArrayList<MGrupo> lista=new ArrayList<MGrupo>();
+        alerta.mostrarDialogoProgress("Por favor espere","Conectando con el servidor");
 
-        //Crea un AlertDialog
-        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
-
-        // Crear un ProgressBar
-        ProgressBar progressBar = new ProgressBar(this.getContext());
-        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
-
-        // Crear el AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Por favor, espera");
-        builder.setMessage("Conectandose con el servidor...");
-        builder.setView(progressBar);
-        builder.setCancelable(false); // Evitar que se pueda cancelar
-        AlertDialog dialog = builder.create();
-        dialog.show();
 
         RequestQueue colaDeSolicitudes= VolleySingleton.getInstance(this.getContext()).getRequestQueue();
         StringRequest solicitud= new StringRequest(Request.Method.POST, API.LISTARGPO,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog.dismiss();//apaga el cuadro de dialogo
+                        alerta.cerrarDialogo();
                         try {
                             //LEER AQUI EL CONTENIDO DE LA VARIABLE response
                             JSONObject contenido = new JSONObject(response);
@@ -245,11 +230,7 @@ public class grupos_docente extends Fragment {
                         }catch (Exception ex){
                             //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
 
-                            msg.setTitle("Error");
-                            msg.setMessage("La información no se pudo leer");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
+                            alerta.mostrarDialogoBoton("Error","No se pudo leer el archivo JSON");
 
                         }
 
@@ -257,13 +238,7 @@ public class grupos_docente extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                // DETECTA ERRORES EN LA COMUNICACIÓN
-                msg.setTitle("Error");
-                msg.setMessage("No se pudo conectar con el servidor");
-                msg.setPositiveButton("Aceptar",null);
-                AlertDialog dialog=msg.create();
-                msg.show();
+               alerta.mostrarDialogoBoton("Error","No se pudo conectar con el servidor");
             }
         }){
             @Override
@@ -290,10 +265,6 @@ public class grupos_docente extends Fragment {
 
     private void clicPerfil() {
         navegador.navigate(R.id.action_grupos_docente_to_perfil_docente, paquete);
-    }
-
-    private void clicBack() {
-        navegador.navigate(R.id.action_grupos_docente_to_docente, paquete);
     }
 
 }

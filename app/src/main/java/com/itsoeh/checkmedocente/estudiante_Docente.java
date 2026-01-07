@@ -28,6 +28,7 @@ import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.modelo.MEstudiante;
 import com.itsoeh.checkmedocente.modelo.MGrupo;
 import com.itsoeh.checkmedocente.modelo.MTutor;
+import com.itsoeh.checkmedocente.utils.Alert;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
@@ -114,27 +115,15 @@ public class estudiante_Docente extends Fragment {
         ArrayList<MEstudiante> lista=new ArrayList<MEstudiante>();
 
         //Crea un AlertDialog
-        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
-
-        // Crear un ProgressBar
-        ProgressBar progressBar = new ProgressBar(this.getContext());
-        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
-
-        // Crear el AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Por favor, espera");
-        builder.setMessage("Conectandose con el servidor...");
-        builder.setView(progressBar);
-        builder.setCancelable(false); // Evitar que se pueda cancelar
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        Alert dialogo = new Alert(getContext());
+        dialogo.mostrarDialogoProgress("Por favor espere...","Conectandose con el servidor");
 
         RequestQueue colaDeSolicitudes= VolleySingleton.getInstance(this.getContext()).getRequestQueue();
         StringRequest solicitud= new StringRequest(Request.Method.POST, API.LISTARTUT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog.dismiss();//apaga el cuadro de dialogo
+                        dialogo.cerrarDialogo();
                         try {
                             //LEER AQUI EL CONTENIDO DE LA VARIABLE response
 
@@ -163,19 +152,11 @@ public class estudiante_Docente extends Fragment {
 
                             rec.setHasFixedSize(true);
                             rec.setLayoutManager(new LinearLayoutManager(getContext()));
-                            adapter=new AdapterEstudiante(lista);
+                            adapter=new AdapterEstudiante(lista,objGpo);
                             rec.setAdapter(adapter);
-
-
                         }catch (Exception ex){
                             //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
-
-                            msg.setTitle("Error");
-                            msg.setMessage("La información no se pudo leer");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
-                            Log.e("Error",ex.toString());
+                            dialogo.mostrarDialogoBoton("ERROR","La información no se pudo leer");
 
                         }
 
@@ -183,13 +164,9 @@ public class estudiante_Docente extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
+                dialogo.cerrarDialogo();
                 // DETECTA ERRORES EN LA COMUNICACIÓN
-                msg.setTitle("Error");
-                msg.setMessage("No se pudo conectar con el servidor");
-                msg.setPositiveButton("Aceptar",null);
-                AlertDialog dialog=msg.create();
-                msg.show();
+               dialogo.mostrarDialogoBoton("ERROR","No se pudo conectar al servidor");
             }
         }){
             @Override

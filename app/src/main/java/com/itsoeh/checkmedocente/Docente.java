@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.itsoeh.checkmedocente.modelo.MDocente;
+import com.itsoeh.checkmedocente.utils.SessionManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +28,7 @@ public class Docente extends Fragment {
     private NavController navegador;
     private TextView txtNombre, txtTitulo, txtCorreo, txtNumT;
     private MDocente obj;
+    private SessionManager sessionManager;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -78,6 +80,7 @@ public class Docente extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navegador = Navigation.findNavController(view);
+        sessionManager = new SessionManager(this.getActivity().getApplicationContext());
 
         btnPerfil = view.findViewById(R.id.docente_btn_MiPerfil);
         btnMisGrupos = view.findViewById(R.id.docente_btn_MisGrupos);
@@ -88,15 +91,12 @@ public class Docente extends Fragment {
         txtTitulo = view.findViewById(R.id.docente_carrera);
         txtCorreo = view.findViewById(R.id.docente_correo);
         txtNumT = view.findViewById(R.id.docente_NumeroTrabajador);
-
-        paquete= this.getArguments();
-        if(paquete!=null){
-            obj=(MDocente) paquete.getSerializable("user");
+            obj=sessionManager.getDoc();
             txtNombre.setText(obj.getApp()+" "+obj.getApm()+" "+obj.getNombre());
             txtTitulo.setText("Titulo: "+obj.getGrado()+" "+obj.getTitulo());
             txtCorreo.setText("Correo: "+obj.getCorreo());
             txtNumT.setText("Numero de trabajador: "+obj.getNumTrabajador());
-        }
+
 
         btnPerfil.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){clicPerfil();}

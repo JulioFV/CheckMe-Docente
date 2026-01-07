@@ -14,22 +14,25 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
         android:background="#005c61"
+        android:visibility="gone"
         android:id="@+id/btn_Perfil_back">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/regresar"
-            android:background="@color/fondo2"/>
+            android:background="@color/fondo2"
+
+            />
     </androidx.cardview.widget.CardView>
 
 
     <!-- TODO: Update blank fragment layout -->
+    <!--COMIENZA LA ISLA DE BOTONES -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:layout_marginTop="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
         android:background="@drawable/fondo_tutor1"
         android:orientation="vertical"
         android:padding="16dp">
@@ -37,96 +40,95 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_margin="15dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <TextView
+                android:id="@+id/perfil_nombre"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/perfil_nombre"
-                android:text="Nombre"
+                android:layout_marginBottom="16dp"
                 android:gravity="center"
+                android:text="Nombre"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:textSize="30sp"
-                android:layout_marginBottom="16dp"/>
+                android:textStyle="bold" />
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:id="@+id/perfil_doc_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:elevation="4dp"
                 android:padding="8dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/perfil_mtro"
-                android:id="@+id/perfil_doc_img"
-                />
+                android:src="@drawable/perfil_mtro" />
 
             <!-- Datos personales -->
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/miPerfil_titulo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="Titulo"
+                android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                android:id="@+id/miPerfil_titulo"/>
+                android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/miPerfil_correo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="Correo"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                android:id="@+id/miPerfil_correo"/>
+                android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/miPerfil_NumTrabajador"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Numero de trabajador"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                android:id="@+id/miPerfil_NumTrabajador"/>
+                android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/per_doc_txtgenero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/per_doc_txtgenero"
-                android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/black"
-                />
-
+                android:textSize="18sp" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:layout_marginTop="16dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_editarDatos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Editar Datos"
-                    android:backgroundTint="#54d9df"
-                    android:textColor="#000000"
                     android:layout_marginRight="8dp"
-                    android:visibility="gone"/>
+                    android:backgroundTint="#54d9df"
+                    android:text="Editar Datos"
+                    android:textColor="#000000"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btn_guardarDatos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Guardar Datos"
-                    android:backgroundTint="#54d9df"
-                    android:textColor="#000000"
                     android:layout_marginLeft="8dp"
-                    android:visibility="gone"/>
+                    android:backgroundTint="#54d9df"
+                    android:text="Guardar Datos"
+                    android:textColor="#000000"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -135,7 +137,7 @@
 
 
     </LinearLayout>
-    <!--COMIENZA LA ISLA DE BOTONES -->
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"

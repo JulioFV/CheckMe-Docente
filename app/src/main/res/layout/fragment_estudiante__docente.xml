@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#005c61"
+    android:background="@color/fondo2"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/fondo_tutor1"
         android:orientation="vertical"
         android:padding="16dp">
@@ -55,10 +55,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/Tutor_recycler_view_estud_grupo"
                 android:layout_width="match_parent"
-
                 android:background="@color/white"
-                android:layout_height="0dp"
-                android:layout_weight="3"
+                android:layout_height="match_parent"
                 />
         </LinearLayout>
     </LinearLayout>

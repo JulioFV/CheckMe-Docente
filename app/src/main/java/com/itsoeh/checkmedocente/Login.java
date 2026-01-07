@@ -25,6 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.itsoeh.checkmedocente.modelo.MDocente;
+import com.itsoeh.checkmedocente.utils.Alert;
+import com.itsoeh.checkmedocente.utils.SessionManager;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
@@ -46,7 +48,9 @@ public class Login extends Fragment {
     private NavController navegador;
     private Bundle paquete;
     private TextView btnRecupera;
+    private Alert alerta;
     private MDocente obj;
+    private SessionManager sessionManager;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -98,11 +102,15 @@ public class Login extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navegador = Navigation.findNavController(view);
+        sessionManager = new SessionManager(this.getActivity().getApplicationContext());
+        alerta = new Alert(this.getContext());
         btnEntrar=view.findViewById(R.id.loginButton);
         txtContrasenia=view.findViewById(R.id.Login_txt_Contrasenia);
         txtUsuario=view.findViewById(R.id.login_txtNombre);
         btnRegistro = view.findViewById(R.id.login_registro);
         btnRecupera=view.findViewById(R.id.login_Recuperar_contra);
+        txtUsuario.setText("21011178@itsoeh.edu.mx");
+        txtContrasenia.setText("12345");
         btnRecupera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,31 +145,15 @@ public class Login extends Fragment {
     private void recuperarDocente(String correo){
         MDocente obj = new MDocente();
         Log.e("PASO 0", correo);
-        //ArrayList<MDocente> lista=new ArrayList<MDocente>();
-
-        //Crea un AlertDialog
-        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
-
-        // Crear un ProgressBar
-        ProgressBar progressBar = new ProgressBar(this.getContext());
-        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
-
-        // Crear el AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Por favor, espera");
-        builder.setMessage("Conectandose con el servidor...");
-        builder.setView(progressBar);
-        builder.setCancelable(false); // Evitar que se pueda cancelar
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        alerta.mostrarDialogoProgress("Por favor espere","Conectandose con el servidor...");
 
         RequestQueue colaDeSolicitudes= VolleySingleton.getInstance(this.getContext()).getRequestQueue();
         StringRequest solicitud= new StringRequest(Request.Method.POST, API.BUSCARDOC,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog.dismiss();//apaga el cuadro de dialogo
-                        try {
+                            alerta.cerrarDialogo();
+                            try {
                             //LEER AQUI EL CONTENIDO DE LA VARIABLE response
                             Log.e("PASO 1", response);
                             JSONObject contenido = new JSONObject(response);
@@ -188,47 +180,29 @@ public class Login extends Fragment {
                             }
 
                             if (obj.getCorreo()==null){// Esto es en caso de que el usuario no exista
-
-                                msg.setTitle("Error");
-                                msg.setMessage("El usuario no existe");
-                                msg.setPositiveButton("Aceptar",null);
-                                AlertDialog dialog=msg.create();
-                                msg.show();
+                                alerta.mostrarDialogoBoton("Error","El usuario no existe");
                             }
                             if(txtContrasenia.getText().toString().equals(obj.getContrasenia())){
                                 paquete.putSerializable("user",obj);
+                                sessionManager.saveSession(obj);
                                 navegador.navigate(R.id.action_login_to_docente,paquete);
                             }
                             else{// Esto es en caso de que la contraseña sea incorrecta
 
-                                msg.setTitle("Error");
-                                msg.setMessage("Contraseña incorrecta");
-                                msg.setPositiveButton("Aceptar",null);
-                                AlertDialog dialog=msg.create();
-                                msg.show();
+                                alerta.mostrarDialogoBoton("Error","La contraseña es incorrecta");
                             }
 
                         }catch (Exception ex){
                             //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
                             Log.e("PASO 5", ex.getMessage());
-                            msg.setTitle("Error");
-                            msg.setMessage("La información no se pudo leer");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
+                            alerta.mostrarDialogoBoton("Error","No se pudo leer la información");
 
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                // DETECTA ERRORES EN LA COMUNICACIÓN
-                msg.setTitle("Error");
-                msg.setMessage("No se pudo conectar con el servidor");
-                msg.setPositiveButton("Aceptar",null);
-                AlertDialog dialog=msg.create();
-                msg.show();
+                alerta.mostrarDialogoBoton("Error","No se pudo conectar con el servidor");
             }
         }){
             @Override

@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.itsoeh.checkmedocente.R;
 import com.itsoeh.checkmedocente.modelo.MEstudiante;
+import com.itsoeh.checkmedocente.modelo.MGrupo;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
@@ -39,10 +40,12 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
     private Context contexto;
     private int est;
     private Bundle paquete;
+    private MGrupo grupo = new MGrupo();
 
 
-    public AdapterEstudiante(ArrayList<MEstudiante> lista) {
+    public AdapterEstudiante(ArrayList<MEstudiante> lista, MGrupo obj) {
         this.lista = lista;
+        this.grupo = obj;
     }
 
 
@@ -59,8 +62,6 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
     public void onBindViewHolder(@NonNull AdapterEstudiante.ViewHolderEstudiante holder, int position) {
         MEstudiante estu = lista.get(position);
         paquete = new Bundle();//Creacion del Bundle
-
-
         holder.txtNombre.setText(estu.getNombre());
         holder.txtmat.setText(estu.getMatricula() + "");
         holder.txtcorreo.setText(estu.getCorreo());
@@ -101,11 +102,10 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
             }
         });
 
-        if (genero ==  1) {
+        if (genero ==  0) {
             holder.imgFoto.setImageResource(R.drawable.perfil_alumna);
-        } else if (genero == 0) {
+        } else if (genero == 1) {
             holder.imgFoto.setImageResource(R.drawable.perfil_alumn);
-
         }
         holder.btnPaseLista.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +113,6 @@ public class AdapterEstudiante extends RecyclerView.Adapter<AdapterEstudiante.Vi
                 clicPasarLista(estu.getIdInscripcion(),est, String.valueOf(holder.txtObservaciones.getText()));
             }
         });
-
     }
 
 

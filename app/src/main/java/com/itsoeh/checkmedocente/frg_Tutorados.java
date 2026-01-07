@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.itsoeh.checkmedocente.adapter.AdapterTutor;
 import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.modelo.MGrupo;
+import com.itsoeh.checkmedocente.utils.SessionManager;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.modelo.MTutor;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
@@ -53,7 +54,7 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class frg_Tutorados extends Fragment {
-
+        private SessionManager sessionManager;
         private EditText txtFiltro;
         private AdapterTutor adapter;
         private ArrayList<MTutor> lista;
@@ -73,10 +74,11 @@ public class frg_Tutorados extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         paquete=getArguments();
-        if(paquete != null){
-            objDoc = (MDocente) paquete.getSerializable("user");
+        sessionManager = new SessionManager(this.getActivity().getApplicationContext());
+
+            objDoc = sessionManager.getDoc();
             Log.e("OBJETO A TUTORADOS",objDoc.toString());
-        }
+
 
         txtFiltro = view.findViewById(R.id.tut_txt_filtro);
         btnAgrgarTutorado=view.findViewById(R.id.tut_btn_addtut);

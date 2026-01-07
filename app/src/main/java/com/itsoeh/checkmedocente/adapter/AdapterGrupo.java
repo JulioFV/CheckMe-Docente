@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,7 +51,7 @@ public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.viewHolderGr
     @NonNull
     @Override
     public AdapterGrupo.viewHolderGrupo onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grupo,null,false);
+        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grupo,parent,false);
         contexto = parent.getContext();
         return new viewHolderGrupo(v);
     }
@@ -176,12 +177,8 @@ public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.viewHolderGr
 
 
     private void clicVer(View v) {
-
         NavController nav = Navigation.findNavController(v);
         nav.navigate(R.id.action_grupos_docente_to_estudiante_Docente,paquete);
-
-
-
     }
 
     @Override
@@ -195,9 +192,9 @@ public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.viewHolderGr
 
     public class viewHolderGrupo extends RecyclerView.ViewHolder {
 
-        Button btnver;
+        CardView btnver;
         ImageView btnEditar,btnEliminar,btnGrafica;
-        EditText txtNombreAsignatura, txtNombreDocente,txtClaveGrupo,txtPeriodo,txtOp;
+        TextView txtNombreAsignatura, txtNombreDocente,txtClaveGrupo,txtPeriodo;
 
         public viewHolderGrupo(@NonNull View itemView) {
             super(itemView);
@@ -205,7 +202,6 @@ public class AdapterGrupo extends RecyclerView.Adapter<AdapterGrupo.viewHolderGr
             txtClaveGrupo = itemView.findViewById(R.id.item_gpo_clave);
             txtNombreDocente = itemView.findViewById(R.id.item_gpo_docente);
             txtPeriodo = itemView.findViewById(R.id.item_gpo_periodo);
-            txtOp= itemView.findViewById(R.id.item_gpo_op2);
             btnver = itemView.findViewById(R.id.item_gpo_btnver);
             txtUsuario=itemView.findViewById(R.id.Grupos_txtNombre);
             btnEditar=itemView.findViewById(R.id.it_btn_editar);

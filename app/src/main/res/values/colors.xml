@@ -13,5 +13,8 @@
     <color name="forth">#00a79d</color>
     <color name="fifty">#80d7dd</color>
     <color name="sixty">#C6D7D5</color>
-
+    <color name="gris_claro2">#b2acaf</color>"
+    <color name="gris_claro3">#EAE9FC</color>"
+    <color name="gris">#7F7F7F</color>"
+    <color name="azul">#4F46E5</color>
 </resources>

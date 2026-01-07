@@ -8,21 +8,37 @@
     android:orientation="vertical"
     android:background="@color/fondo">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/asistencias_btn_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:clickable="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/regresar"
+            android:background="#005c61" />
+    </androidx.cardview.widget.CardView>
+
     <!-- TODO: Update blank fragment layout -->
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         >
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="30dp"
             app:cardElevation="20dp"
-            app:cardCornerRadius="50dp"
+            app:cardCornerRadius="30dp"
 
             >
             <LinearLayout
@@ -30,11 +46,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-
                 >
                 <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/prueba"
                     android:layout_marginBottom="15dp"
                     />
@@ -44,7 +59,6 @@
                     android:textStyle="bold"
                     android:text="Asistencias de:"
                     android:textSize="25sp"
-                    android:layout_margin="15dp"
                     />
 
                 <TextView
@@ -53,6 +67,8 @@
                     android:textStyle="bold"
                     android:text="Nombre"
                     android:id="@+id/asistencias_lblnombre"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     />
 
 
@@ -60,16 +76,15 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_height="match_parent"
                     >
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_asistencias_alumno"
                         android:layout_width="match_parent"
-                        android:background="@color/white"
                         android:layout_height="match_parent"
-                        android:padding="8dp"/>
+                        android:background="@color/white"
+                        android:padding="8dp" />
 
 
                 </LinearLayout>

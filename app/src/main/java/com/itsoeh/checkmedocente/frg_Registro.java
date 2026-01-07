@@ -24,6 +24,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.itsoeh.checkmedocente.utils.Alert;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
@@ -45,6 +46,7 @@ public class frg_Registro extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Alert alerta;
     private EditText txtNombre,txtApp,txtApm,txtCorreo,txtNumTrabajador,txtContrasenia,txtGrado,txtTitulo;
     private CardView btnRegistrar;
     private TextView btnLogin,lblVer;
@@ -69,6 +71,7 @@ public class frg_Registro extends Fragment {
         lblVer=view.findViewById(R.id.reg_lblgen);
         btnRegistrar=view.findViewById(R.id.reg_btnRegistrar);
         btnLogin=view.findViewById(R.id.reg_lbl_login);
+        alerta = new Alert(this.getContext());
         navegador= Navigation.findNavController(view);
 
 
@@ -79,7 +82,7 @@ public class frg_Registro extends Fragment {
                 if(Campos){
                     clicRegistrar();
                 }else{
-                   Alerta();
+                    alerta.mostrarDialogoBoton("ERROR","Debes llenar todos los campos");
                 }
 
             }
@@ -102,15 +105,6 @@ public class frg_Registro extends Fragment {
 
             }
         });
-    }
-
-    private void Alerta() {
-        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
-        msg.setTitle("CAMPOS INVALIDOS");
-        msg.setMessage("Rellena los campos solicitados");
-        msg.setPositiveButton("Aceptar",null);
-        AlertDialog dialog=msg.create();
-        msg.show();
     }
 
     private void Validar() {
@@ -149,34 +143,17 @@ public class frg_Registro extends Fragment {
 
     private void clicRegistrar() {
 
-        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
-
-        // Crear un ProgressBar
-        ProgressBar progressBar = new ProgressBar(this.getContext());
-        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
-
-        // Crear el AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Por favor, espera");
-        builder.setMessage("Conectandose con el servidor...");
-        builder.setView(progressBar);
-        builder.setCancelable(false); // Evitar que se pueda cancelar
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        alerta.mostrarDialogoProgress("Por favor espere","Creando Cuenta");
 
         RequestQueue colaDeSolicitudes= VolleySingleton.getInstance(this.getContext()).getRequestQueue();
         StringRequest solicitud= new StringRequest(Request.Method.POST, API.REGISTARDOC,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog.dismiss();//apaga el cuadro de dialogo
+                        alerta.cerrarDialogo();
                         try {
                             //LEER AQUI EL CONTENIDO DE LA VARIABLE response
-                            msg.setTitle("Guardado");
-                            msg.setMessage("La información se guardó correctamente");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
+                            alerta.mostrarDialogoBoton("EXITO", "Tu cuenta ha sido creada con exito");
                             navegador.navigate(R.id.action_frg_Registro_to_login);
 
 
@@ -184,11 +161,7 @@ public class frg_Registro extends Fragment {
                         }catch (Exception ex){
                             //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
 
-                            msg.setTitle("Error");
-                            msg.setMessage("La información no se pudo leer");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
+                            alerta.mostrarDialogoBoton("ERROR", "No se pudo crear la cuenta");
 
                         }
 
@@ -196,13 +169,7 @@ public class frg_Registro extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                // DETECTA ERRORES EN LA COMUNICACIÓN
-                msg.setTitle("Error");
-                msg.setMessage("No se pudo conectar con el servidor");
-                msg.setPositiveButton("Aceptar",null);
-                AlertDialog dialog=msg.create();
-                msg.show();
+                alerta.mostrarDialogoBoton("Ocurrio un error", "No se pudo conectar con el servidor");
             }
         }){
             @Override

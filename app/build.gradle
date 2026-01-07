@@ -12,6 +12,8 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +35,8 @@ dependencies {
         implementation "androidx.work:work-runtime:2.8.0" // O la última versión disponible
         implementation 'com.sun.mail:android-mail:1.6.5'
         implementation 'com.sun.mail:android-activation:1.6.5'
+        implementation 'com.google.code.gson:gson:2.10.1'
+
 
     implementation 'com.android.volley:volley:1.2.1'
     implementation libs.appcompat

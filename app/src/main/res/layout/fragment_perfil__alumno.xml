@@ -10,34 +10,44 @@ android:background="@color/fondo2"
     >
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:cardCornerRadius="20dp"
         android:elevation="30dp"
-        android:layout_margin="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="45dp"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+
             android:orientation="vertical"
             >
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/perfil_alumn"
-                android:layout_margin="15dp"
-                android:id="@+id/alumn_imgperfil"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/perfil_alumn"
+                    android:layout_margin="15dp"
+                    android:id="@+id/alumn_imgperfil"
+                    />
+            </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="NombreAlumno"
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:id="@+id/alumn_lblnombre"
+                android:textAlignment="center"
+                android:maxLines="2"
+                android:ellipsize="end"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,9 +170,11 @@ android:background="@color/fondo2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Medios de comunicación"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_margin="10dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"

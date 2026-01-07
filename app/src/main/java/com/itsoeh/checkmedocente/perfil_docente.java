@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itsoeh.checkmedocente.modelo.MDocente;
+import com.itsoeh.checkmedocente.utils.SessionManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +36,7 @@ public class perfil_docente extends Fragment {
     private ImageView btnMenu,btnGrupos,btnTutorados,btnAddTut,imgPerfil;
     private int genero;
     private String gen;
+    private SessionManager sessionManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,6 +88,7 @@ public class perfil_docente extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sessionManager = new SessionManager(this.getActivity().getApplicationContext());
 
         btnGrupos= view.findViewById(R.id.perfil_btn_grupos);
         btnMenu= view.findViewById(R.id.perfil_btn_menu);
@@ -93,12 +96,7 @@ public class perfil_docente extends Fragment {
         btnTutorados= view.findViewById(R.id.perfil_btn_tutorados);
         btnBack=view.findViewById(R.id.btn_Perfil_back);
         imgPerfil = view.findViewById(R.id.perfil_doc_img);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clicBack();
-            }
-        });
+        btnBack.setVisibility(View.GONE);
 
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,14 +125,11 @@ public class perfil_docente extends Fragment {
         txtGenero = view.findViewById(R.id.per_doc_txtgenero);
 
         paquete= this.getArguments();
-        if(paquete!=null){
-            obj=(MDocente) paquete.getSerializable("user");
-            txtNombre.setText(obj.getGrado()+" "+obj.getApp()+" "+obj.getApm()+" "+obj.getNombre());
+            obj= sessionManager.getDoc();
+            txtNombre.setText(obj.getGrado()+". "+obj.getNombre()+" "+obj.getApp()+" " + obj.getApm());
             txtTitulo.setText("Titulo: "+obj.getGrado() +" "+obj.getTitulo());
             txtCorreo.setText("Correo: "+obj.getCorreo());
             txtNumT.setText("Numero de trabajador: "+obj.getNumTrabajador());
-
-
            genero = obj.getGenero();
             if (genero ==  0) {
                 imgPerfil.setImageResource(R.drawable.perfil_mtro);
@@ -145,7 +140,7 @@ public class perfil_docente extends Fragment {
             }
             txtGenero.setText("Genero:  "+gen);
 
-        }
+
         btnGrupos.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clicGrupos();
@@ -176,19 +171,6 @@ public class perfil_docente extends Fragment {
         }
         navegador.navigate(R.id.action_perfil_docente_to_docente, paquete);
     }
-
-
-    private void clicBack() {
-        if(paquete!=null){
-            paquete.putSerializable("user",obj);
-        }
-        navegador.navigate(R.id.action_perfil_docente_to_docente, paquete);
-    }
-
-    private void clicPaseDL() {
-        navegador.navigate(R.id.action_perfil_docente_to_pase_de_lista);
-    }
-
     private void clicGrupos() {
         if(paquete!=null){
             paquete.putSerializable("user",obj);

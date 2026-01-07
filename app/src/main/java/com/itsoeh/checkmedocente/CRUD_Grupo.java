@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,6 +28,8 @@ import com.itsoeh.checkmedocente.modelo.MAsignatura;
 import com.itsoeh.checkmedocente.modelo.MDocente;
 import com.itsoeh.checkmedocente.modelo.MGrupo;
 import com.itsoeh.checkmedocente.modelo.MPeriodo;
+import com.itsoeh.checkmedocente.utils.Alert;
+import com.itsoeh.checkmedocente.utils.SessionManager;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
@@ -54,6 +57,8 @@ public class CRUD_Grupo extends Fragment {
     private MAsignatura asigSelect;
     private MPeriodo perSelect;
     private MDocente docSelect;
+    private SessionManager sessionManager;
+    private Alert alerta;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -104,10 +109,12 @@ public class CRUD_Grupo extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sessionManager = new SessionManager(this.getActivity().getApplicationContext());
         txtClaveGrupo = view.findViewById(R.id.crudgpo_txtclavegpo);
         txtIdAsignatura = view.findViewById(R.id.frgcrudgpo_txtidasig);
         txtIdDocente = view.findViewById(R.id.crudgpo_txt_iddocente);
         txtIdPeriodo = view.findViewById(R.id.crudgpo_txt_idperiodo);
+        alerta = new Alert(this.getContext());
         btnEliminar=view.findViewById(R.id.crud_gpo_btn_eliminar);
         btnGuardar=view.findViewById(R.id.crudgpo_btnguardar);
         spinAsig=view.findViewById(R.id.frgcrud_spinnerAsig);//Spinner de asignaturas
@@ -119,7 +126,7 @@ public class CRUD_Grupo extends Fragment {
         // txtIdDocente.setText(grupo.getIdDocente() + "" + grupo.getNombreDoc());
         if (paquete!=null){
             grupo= (MGrupo) paquete.getSerializable("objeto");
-            docSelect= (MDocente) paquete.getSerializable("user");
+            docSelect= sessionManager.getDoc();
             //Log.d("Paquete Docente",docSelect.toString());
             op=paquete.getInt("op");
             txtClaveGrupo.setText(grupo.getClave());
@@ -439,43 +446,22 @@ public class CRUD_Grupo extends Fragment {
     }
     private void Guardar() {
 
-        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
-
-        // Crear un ProgressBar
-        ProgressBar progressBar = new ProgressBar(this.getContext());
-        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
-
-        // Crear el AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Por favor, espera");
-        builder.setMessage("Conectandose con el servidor...");
-        builder.setView(progressBar);
-        builder.setCancelable(false); // Evitar que se pueda cancelar
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        alerta.mostrarDialogoProgress("Por favor espere..", "Conectando con el servidor");
 
         RequestQueue colaDeSolicitudes= VolleySingleton.getInstance(this.getContext()).getRequestQueue();
         StringRequest solicitud= new StringRequest(Request.Method.POST, API.GUARDARGPO,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog.dismiss();//apaga el cuadro de dialogo
+                        alerta.cerrarDialogo();
                         try {
                             //LEER AQUI EL CONTENIDO DE LA VARIABLE response
-                            msg.setTitle("Guardado");
-                            msg.setMessage("La información se guardó correctamente");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
+                            alerta.mostrarDialogoBoton("GUARDADO","La información se \n guardo correctamente");
 
                         }catch (Exception ex){
                             //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
 
-                            msg.setTitle("Error");
-                            msg.setMessage("La información no se pudo leer");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
+                            alerta.mostrarDialogoBoton("ERROR","Ocurrio un error inesperado");
 
                         }
 
@@ -483,13 +469,7 @@ public class CRUD_Grupo extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                // DETECTA ERRORES EN LA COMUNICACIÓN
-                msg.setTitle("Error");
-                msg.setMessage("No se pudo conectar con el servidor");
-                msg.setPositiveButton("Aceptar",null);
-                AlertDialog dialog=msg.create();
-                msg.show();
+                alerta.mostrarDialogoBoton("ERROR","No se pudo conectar \n con el servidor");
             }
         }){
             @Override
@@ -499,7 +479,7 @@ public class CRUD_Grupo extends Fragment {
 
                 param.put("clave",txtClaveGrupo.getText().toString());
                 param.put("idAsignatura",txtIdAsignatura.getText().toString());
-                param.put("idDocente",grupo.getIdDocente() + "");
+                param.put("idDocente",sessionManager.getDoc().getIdDocente() + "");
                 param.put("idPeriodo",perSelect.getIdPeriodo() + "");
 
                 return param;

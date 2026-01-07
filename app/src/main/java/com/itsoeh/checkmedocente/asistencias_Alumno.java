@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,8 +26,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.itsoeh.checkmedocente.adapter.AdapterPaseLista;
+import com.itsoeh.checkmedocente.modelo.MGrupo;
 import com.itsoeh.checkmedocente.modelo.MMaterias;
 import com.itsoeh.checkmedocente.modelo.MPaseLista;
+import com.itsoeh.checkmedocente.utils.Alert;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
@@ -49,8 +53,10 @@ public class asistencias_Alumno extends Fragment {
     private Bundle paquete;
     private NavController navegador;
     private MMaterias obj;
+    private MGrupo objGpo;
     private int idInscripcion;
     private TextView lblNombre;
+    private CardView btnRegresar;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -61,102 +67,79 @@ public class asistencias_Alumno extends Fragment {
         paquete= this.getArguments();
         idInscripcion = paquete.getInt("idInscripcion");
         lblNombre.setText(paquete.getString("nombre"));
-
+        btnRegresar=view.findViewById(R.id.asistencias_btn_back);
         lista=llenadoDesdeBD();
+        btnRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private ArrayList<MPaseLista> llenadoDesdeBD() {
         ArrayList<MPaseLista> lista=new ArrayList<MPaseLista>();
 
         //Crea un AlertDialog
-        AlertDialog.Builder msg = new AlertDialog.Builder(this.getContext());
-
-        // Crear un ProgressBar
-        ProgressBar progressBar = new ProgressBar(this.getContext());
-        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
-
-        // Crear el AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle("Por favor, espera");
-        builder.setMessage("Conectandose con el servidor...");
-        builder.setView(progressBar);
-        builder.setCancelable(false); // Evitar que se pueda cancelar
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        Alert dialogo = new Alert(getContext());
+        dialogo.mostrarDialogoProgress("Por favor espere...","Conectandose con el servidor");
 
         RequestQueue colaDeSolicitudes= VolleySingleton.getInstance(this.getContext()).getRequestQueue();
         StringRequest solicitud= new StringRequest(Request.Method.POST, API.LISTARASISTENCIAS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog.dismiss();//apaga el cuadro de dialogo
+                        dialogo.cerrarDialogo();
                         try {
-                            //LEER AQUI EL CONTENIDO DE LA VARIABLE response
-
                             JSONObject contenido = new JSONObject(response);
                             JSONArray array=contenido.getJSONArray("contenido");
                             MPaseLista obj=new MPaseLista();
-                            for (int i = 0; i < array.length(); i++) {
-                                obj=new MPaseLista();
-                                JSONObject pos=new JSONObject(array.getString(i));
 
-                                obj.setIdPase(pos.getInt("idPase"));
-                                obj.setFecha(pos.getString("fecha"));
-                                obj.setIdInscripcion(pos.getInt("idInscripcion"));
-                                obj.setEstado(pos.getInt("estado"));
-                                obj.setObservaciones(pos.getString("observaciones"));
-                                obj.setOpcion(2);
-                                Log.e("COMO SE LLENA EL OBJETO",obj.toString());
-                                lista.add(obj);
-                            }
+                                for (int i = 0; i < array.length(); i++) {
+                                    obj=new MPaseLista();
+                                    JSONObject pos=new JSONObject(array.getString(i));
+
+                                    obj.setIdPase(pos.getInt("idPase"));
+                                    obj.setFecha(pos.getString("fecha"));
+                                    obj.setIdInscripcion(pos.getInt("idInscripcion"));
+                                    obj.setEstado(pos.getInt("estado"));
+                                    obj.setObservaciones(pos.getString("observaciones"));
+                                    obj.setOpcion(2);
+                                    Log.e("COMO SE LLENA EL OBJETO",obj.toString());
+                                    lista.add(obj);
+                                }
+
 
                             rec.setHasFixedSize(true);
                             rec.setLayoutManager(new LinearLayoutManager(getContext()));
                             adapter=new AdapterPaseLista(lista);
                             rec.setAdapter(adapter);
-
-
-
                         }catch (Exception ex){
-                            //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
-
-                            msg.setTitle("Error");
-                            msg.setMessage("La información no se pudo leer");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
-                            Log.e("Error",ex.toString());
-
+                            if(ex.toString().contains("No value for")){
+                                dialogo.mostrarDialogoBoton("AVISO","Aun no hay asistencias");
+                            }else{
+                                Log.e("Error",ex.toString());
+                                dialogo.mostrarDialogoBoton(
+                                        "ERROR","Ocurrio un error inesperado \nIntente de nuevo más tarde");
+                            }
                         }
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                // DETECTA ERRORES EN LA COMUNICACIÓN
-                msg.setTitle("Error");
-                msg.setMessage("No se pudo conectar con el servidor");
-                msg.setPositiveButton("Aceptar",null);
-                AlertDialog dialog=msg.create();
-                msg.show();
+                dialogo.mostrarDialogoBoton(
+                        "ERROR","No se pudo conectar con el servidor");
             }
         }){
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> param = new HashMap<String, String>();
-                //PASA PARAMETROS A LA SOLICITUD
-
                 param.put("idInscripcion",idInscripcion+"");
-
-
                 return param;
             }
         };
-        //ENVIA LA SOLICITUD
         colaDeSolicitudes.add(solicitud);
-
-
         return lista;
     }
 

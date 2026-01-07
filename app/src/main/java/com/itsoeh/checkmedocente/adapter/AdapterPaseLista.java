@@ -6,15 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -25,21 +28,24 @@ import com.android.volley.toolbox.StringRequest;
 import com.itsoeh.checkmedocente.R;
 import com.itsoeh.checkmedocente.modelo.MEstudiante;
 import com.itsoeh.checkmedocente.modelo.MPaseLista;
+import com.itsoeh.checkmedocente.utils.Alert;
+import com.itsoeh.checkmedocente.utils.Dia_Fecha;
 import com.itsoeh.checkmedocente.volley.API;
 import com.itsoeh.checkmedocente.volley.VolleySingleton;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AdapterPaseLista extends RecyclerView.Adapter<AdapterPaseLista.ViewHolderPaseLista> {
     private ArrayList<MPaseLista> lista;
     private Context contexto;
     private int est;
-
-
-
-
     public AdapterPaseLista(ArrayList<MPaseLista> lista) {
         this.lista = lista;
     }
@@ -47,7 +53,7 @@ public class AdapterPaseLista extends RecyclerView.Adapter<AdapterPaseLista.View
     @NonNull
     @Override
     public AdapterPaseLista.ViewHolderPaseLista onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pase_lista, null, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pase_lista, parent, false);
         contexto = parent.getContext();
         return new ViewHolderPaseLista(v);
     }
@@ -56,37 +62,31 @@ public class AdapterPaseLista extends RecyclerView.Adapter<AdapterPaseLista.View
     public void onBindViewHolder(@NonNull AdapterPaseLista.ViewHolderPaseLista holder, int position) {
         MPaseLista pase = lista.get(position);
 
-
-        if(pase.getOpcion() == 1){
-            holder.Areaeditar.setVisibility(View.GONE);
-            holder.btnGuardar.setVisibility(View.GONE);
-        } else if (pase.getOpcion() == 2) {
-            holder.Areaeditar.setVisibility(View.VISIBLE);
-            holder.btnGuardar.setVisibility(View.VISIBLE);
-            holder.SPEstado.setEnabled(false);
-        }
         holder.SPEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 est=position;
+                switch (position){
+                    case 0:
+                        holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_asistencia));
+                        break;
+                    case 1:
+                        holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_falta));
+                        break;
+                    case 2:
+                        holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_retardo));
+                        break;
+                    case 3:
+                        holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_justificante));
+                        break;
+                    default:
+                        holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_asistencia));
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-        holder.habEdicion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AlertDialog.Builder msg = new AlertDialog.Builder(contexto);
-                msg.setTitle("EDITAR");
-                msg.setMessage("Ahora Puedes editar");
-                msg.setPositiveButton("Aceptar",null);
-                AlertDialog dialog=msg.create();
-                msg.show();
-                holder.btnGuardar.setClickable(true);
-                holder.SPEstado.setEnabled(true);
             }
         });
         holder.btnGuardar.setOnClickListener(new View.OnClickListener() {
@@ -102,77 +102,78 @@ public class AdapterPaseLista extends RecyclerView.Adapter<AdapterPaseLista.View
         }else{
             holder.txtObservaciones.setText("Ninguna Observacion");
         }
-        if(pase.getEstado() == 0){
-                holder.txtEstado.setText("Asistencia");
-            } else if (pase.getEstado() == 1) {
-                holder.txtEstado.setText("Falta");
-            } else if (pase.getEstado() == 2) {
-                holder.txtEstado.setText("Retardo");
-            } else if (pase.getEstado() == 3) {
-                holder.txtEstado.setText("Justificante");
+        holder.SPEstado.setSelection(pase.getEstado());
+        holder.habEdicion.setChecked(false);
+        holder.SPEstado.setEnabled(false);
+        holder.habEdicion.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                new Alert(contexto).mostrarDialogoBoton("EDICIÓN","Ahora puedes editar este campo");
+                holder.SPEstado.setEnabled(true);
+                holder.btnGuardar.setVisibility(View.VISIBLE);
+                holder.txtObservaciones.setEnabled(true);
+                //fondoBtn.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_offline));
+
+            } else {
+                new Alert(contexto).mostrarDialogoBoton("EDICIÓN","Se deshabilito la edición");
+                holder.SPEstado.setEnabled(false);
+                holder.btnGuardar.setVisibility(View.GONE);
+                holder.txtObservaciones.setEnabled(false);
+               // fondoBtn.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.degradado3));
             }
+        });
+        switch (pase.getEstado()){
+            case 0:
+                holder.SPEstado.setSelection(0);
+                holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_asistencia));
+                break;
+            case 1:
+                holder.SPEstado.setSelection(1);
+                holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_falta));
+                break;
+            case 2:
+                holder.SPEstado.setSelection(2);
+                holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_retardo));
+                break;
+            case 3:
+                holder.SPEstado.setSelection(3);
+                holder.SPEstado.setBackground(contexto.getResources().getDrawable(R.drawable.bg_justificante));
+                break;
+            default:
 
-        holder.txtFecha.setText(pase.getFecha()+"");
-        holder.txtIdPase.setText(pase.getIdPase()+"");
-
-
+        }
+        String fecha = Dia_Fecha.aFechaLarga(pase.getFecha());
+        holder.txtFecha.setText(fecha);
+        holder.txtIdPase.setText("Pase de lista");
+        /**
+         *
+         * FALTA AGREGAR LA MATERIA DE DONDE VIENE LA ASISTENCIA
+         * 
+         * */
     }
 
     private void GuardarCambios(int idPase) {
-        AlertDialog.Builder msg = new AlertDialog.Builder(contexto);
-
-        // Crear un ProgressBar
-        ProgressBar progressBar = new ProgressBar(contexto);
-        progressBar.setIndeterminate(true); // Estilo de carga indeterminada
-
-        // Crear el AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
-        builder.setTitle("Por favor, espera");
-        builder.setMessage("Conectandose con el servidor...");
-        builder.setView(progressBar);
-        builder.setCancelable(false); // Evitar que se pueda cancelar
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new Alert(contexto).mostrarDialogoProgress("Por favor espere..." , "Conectandose con el servidor");
 
         RequestQueue colaDeSolicitudes= VolleySingleton.getInstance(contexto).getRequestQueue();
         StringRequest solicitud= new StringRequest(Request.Method.POST, API.ACTUALIZAPASE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog.dismiss();//apaga el cuadro de dialogo
+                        new Alert(contexto).cerrarDialogo();
                         try {
-                            //LEER AQUI EL CONTENIDO DE LA VARIABLE response
-                            msg.setTitle("ACTUALIZANDO");
-                            msg.setMessage("Tarea realizada con exito");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-                            msg.show();
-
-
+                            new Alert(contexto).mostrarDialogoBoton(
+                                    "Actualización","Tarea realizada con exito");
                         }catch (Exception ex){
-                            //DETECTA ERRORES EN LA LECTURA DEL ARCHIVO JSON
-
-                            msg.setTitle("Error");
-                            msg.setMessage("La información no se pudo eliminar");
-                            msg.setPositiveButton("Aceptar",null);
-                            AlertDialog dialog=msg.create();
-
-                            msg.show();
-
-
+                            new Alert(contexto).mostrarDialogoBoton(
+                                    "ERROR","Ocurrio un error inesperado \n Intente de nuevo más tarde");
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                // DETECTA ERRORES EN LA COMUNICACIÓN
-                msg.setTitle("Error");
-                msg.setMessage("No se pudo conectar con el servidor");
-                msg.setPositiveButton("Aceptar",null);
-                AlertDialog dialog=msg.create();
-                msg.show();
+                new Alert(contexto).cerrarDialogo();
+                new Alert(contexto).mostrarDialogoBoton(
+                        "ERROR","Ocurrio un error inesperado");
             }
         }){
             @Override
@@ -181,13 +182,10 @@ public class AdapterPaseLista extends RecyclerView.Adapter<AdapterPaseLista.View
                 //PASA PARAMETROS A LA SOLICITUD
                 param.put("idPase",idPase+"");
                 param.put("estado",est+"");
-
                 return param;
             }
         };
-        //ENVIA LA SOLICITUD
         colaDeSolicitudes.add(solicitud);
-
     }
 
 
@@ -201,21 +199,20 @@ public class AdapterPaseLista extends RecyclerView.Adapter<AdapterPaseLista.View
     }
 
     public class ViewHolderPaseLista extends RecyclerView.ViewHolder {
-        private TextView txtIdPase,txtFecha,txtEstado,txtObservaciones;
-        private LinearLayout Areaeditar;
+        private TextView txtIdPase,txtFecha,txtMateria;
         private ImageView btnGuardar;
         private Switch habEdicion;
         private Spinner SPEstado;
+        private EditText txtObservaciones;
         public ViewHolderPaseLista(@NonNull View itemView) {
             super(itemView);
             txtIdPase=itemView.findViewById(R.id.it_pase_idpase);
             txtFecha=itemView.findViewById(R.id.it_pase_txtfecha);
-            txtEstado=itemView.findViewById(R.id.it_pase_estado);
             txtObservaciones=itemView.findViewById(R.id.it_pase_txtobservaciones);
-            Areaeditar = itemView.findViewById(R.id.linear_editar_asistencia);
             btnGuardar = itemView.findViewById(R.id.btn_modificar_asistencia);
             habEdicion = itemView.findViewById(R.id.sw_editar_pase);
             SPEstado = itemView.findViewById(R.id.sp_editar_estado);
+            txtMateria = itemView.findViewById(R.id.it_pase_txtmateria);
 
         }
     }

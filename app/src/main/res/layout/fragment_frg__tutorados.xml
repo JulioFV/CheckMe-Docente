@@ -6,25 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".frg_Tutorados"
     android:orientation="vertical"
-    android:background="@color/fondo"
+    android:background="@color/fondo2"
     >
 
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_height="match_parent"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/fondo_tutor1"
         >
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            app:cardElevation="20dp"
-            app:cardCornerRadius="50dp"
-
-            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,8 +26,8 @@
 
                 >
                 <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/tutorados"
                     />
                 <LinearLayout
@@ -47,21 +40,20 @@
                     <EditText
                         android:layout_width="0dp"
                         android:layout_height="45dp"
-                        android:layout_weight="2"
+                        android:layout_weight="3"
                         android:background="@drawable/fondo_edit_text"
                         android:hint="Nombre o Matrcula"
                         android:id="@+id/tut_txt_filtro"
                         android:textColorHint="@color/black"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         />
                     <ImageView
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_weight="1"
                         android:src="@drawable/lupa"
-
                         android:id="@+id/tut_btn_buscar"
-
                         />
 
 
@@ -72,16 +64,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="horizontal"
-
                     >
                     <Spinner
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/frgtut_spin_gpo"
-
                         />
-
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -102,16 +91,13 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_tutorados"
                         android:layout_width="match_parent"
-
                         android:layout_height="match_parent"
                         android:padding="8dp"/>
-
-
                 </LinearLayout>
             </LinearLayout>
 
 
-        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
 <!--COMIENZA LA ISLA DE BOTONES -->
